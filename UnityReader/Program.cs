@@ -8,16 +8,11 @@ namespace UnityReader
 	{
 		private static void Main(string[] args)
 		{
-			MainAsync(args).Wait();
-		}
-
-		private static async Task MainAsync(string[] args)
-		{
-			using (FileStream fs = File.OpenRead("mod-nuterra"))
+			using (FileStream fs = File.OpenRead("level0"))
 			{
-				var reader = new BinaryReader(fs);
-				var file = new UnityFile();
-				await file.ReadAsync(reader);
+				var reader = new UnityBinaryReader(fs);
+				var file = new SerializedFile();
+				file.Read(reader);
 			}
 		}
 	}

@@ -43,30 +43,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BinaryReader.cs" />
-    <Compile Include="FileIdentifierTable.cs" />
-    <Compile Include="Node.cs" />
-    <Compile Include="ObjectIdentifierTable.cs" />
-    <Compile Include="ObjectInfo.cs" />
-    <Compile Include="ObjectInfoTable.cs" />
+    <Compile Include="Objects\ObjectInfoTable.cs" />
+    <Compile Include="Types\BaseClassV2.cs" />
+    <Compile Include="Types\BaseClassV1.cs" />
+    <Compile Include="Types\BaseClass.cs" />
+    <Compile Include="Types\TypeTreeV2.cs" />
+    <Compile Include="UnityBinaryReader.cs" />
+    <Compile Include="Types\ClassTableV2.cs" />
+    <Compile Include="Types\ClassTableV3.cs" />
+    <Compile Include="Types\ClassTable.cs" />
+    <Compile Include="FileIdentifier.cs" />
+    <Compile Include="Objects\ObjectInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TypeTree.cs" />
-    <Compile Include="UnityFile.cs" />
-    <Compile Include="UnityFileHeader.cs" />
-    <Compile Include="UnityFileMeta.cs" />
-    <Compile Include="Hash.cs" />
-    <Compile Include="RootType.cs" />
-    <Compile Include="UnityGuid.cs" />
-    <Compile Include="UnityDataTable.cs" />
-    <Compile Include="UnityType.cs" />
+    <Compile Include="SerializedFile.cs" />
+    <Compile Include="SerializedFileHeader.cs" />
+    <Compile Include="SerializedFileMetadata.cs" />
+    <Compile Include="Types\TypeTreeV1.cs" />
+    <Compile Include="UnityHash.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="mod-nuterra">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="mod-nuterra.manifest">
+    <None Include="level0">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

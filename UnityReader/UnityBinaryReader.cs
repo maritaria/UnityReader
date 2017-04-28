@@ -3,74 +3,80 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace UnityReader
 {
-	public sealed class BinaryReader
+	public sealed class UnityBinaryReader
 	{
 		private Stream _stream;
+
 		public long Position
 		{
 			get { return _stream.Position; }
 			set { _stream.Position = value; }
 #warning Build system to load stuff in memory instead
 		}
+
 		public bool IsLittleEndian { get; set; } = BitConverter.IsLittleEndian;
 
-		public BinaryReader(Stream stream)
+		public UnityBinaryReader(Stream stream)
 		{
 			if (stream == null) throw new ArgumentNullException(nameof(stream));
 			_stream = stream;
 		}
 
-		public async Task<bool> ReadBoolAsync()
+		public bool ReadBool()
 		{
-			return (await ReadByteAsync()) != 0x00;
+			return (ReadByte()) != 0x00;
 		}
 
-		public async Task<short> ReadInt16Async()
+		public short ReadInt16()
 		{
-			byte[] buffer = await ReadBytesAsync(2);
+			byte[] buffer = ReadBytes(2);
 			return BitConverter.ToInt16(buffer, 0);
 		}
 
-		public async Task<char> ReadCharAsync()
+		public char ReadChar()
 		{
-			byte[] buffer = await ReadBytesAsync(2);
+			byte[] buffer = ReadBytes(2);
 			return BitConverter.ToChar(buffer, 0);
 		}
 
-		public async Task<int> ReadInt32Async()
+		public int ReadInt32()
 		{
-			IEnumerable<byte> buffer = await ReadBytesAsync(4);
+			IEnumerable<byte> buffer = ReadBytes(4);
 			return BitConverter.ToInt32(buffer.ToArray(), 0);
 		}
 
-		public async Task<uint> ReadUInt32Async()
+		public uint ReadUInt32()
 		{
-			byte[] buffer = await ReadBytesAsync(4);
+			byte[] buffer = ReadBytes(4);
 			return BitConverter.ToUInt32(buffer, 0);
 		}
 
-		public async Task<long> ReadInt64Async()
+		public long ReadInt64()
 		{
-			byte[] buffer = await ReadBytesAsync(8);
+			byte[] buffer = ReadBytes(8);
 			return BitConverter.ToInt64(buffer, 0);
 		}
 
-		public async Task<byte> ReadByteAsync()
+		public byte ReadByte()
 		{
-			return (await ReadBytesAsync(1))[0];
+			return (ReadBytes(1))[0];
 		}
 
-		public async Task<byte[]> ReadBytesAsync(int count)
+		public byte[] ReadBytes(int count)
 		{
 			byte[] result = new byte[count];
-			int read = 0;
-			while (read < count)
+			int readAlready = 0;
+			while (readAlready < count)
 			{
-				read += await _stream.ReadAsync(result, read, count - read);
+				int read = _stream.Read(result, readAlready, count - readAlready);
+				if (read == 0)
+				{
+					throw new EndOfStreamException();
+				}
+				readAlready += read;
 			}
 			if (IsLittleEndian != BitConverter.IsLittleEndian)
 			{
@@ -79,12 +85,12 @@ namespace UnityReader
 			return result;
 		}
 
-		public async Task<string> ReadNullStringAsync(int limit, Encoding encoding)
+		public string ReadString(int limit, Encoding encoding)
 		{
 			List<byte> data = new List<byte>();
 			for (int i = 0; i < limit; i++)
 			{
-				byte raw = await ReadByteAsync();
+				byte raw = ReadByte();
 				if (raw == 0x00)
 				{
 					break;
@@ -94,14 +100,31 @@ namespace UnityReader
 			return encoding.GetString(data.ToArray());
 		}
 
-		public Task<string> ReadNullStringAsync(int limit)
+		public UnityHash ReadHash()
 		{
-			return ReadNullStringAsync(limit, Encoding.ASCII);
+			byte[] data = ReadBytes(16);
+			return new UnityHash(data);
 		}
 
-		public Task<string> ReadNullStringAsync()
+		public string ReadString(int limit)
 		{
-			return ReadNullStringAsync(256);
+			return ReadString(limit, Encoding.ASCII);
+		}
+
+		public string ReadString()
+		{
+			return ReadString(256);
+		}
+
+		public string ReadStringFixed(int length, Encoding encoding)
+		{
+			byte[] data = ReadBytes(length);
+			return encoding.GetString(data);
+		}
+
+		public string ReadStringFixed(int length)
+		{
+			return ReadStringFixed(length, Encoding.ASCII);
 		}
 
 		public void Align(int blockSize)
@@ -118,6 +141,5 @@ namespace UnityReader
 				_stream.Position += remaining;
 			}
 		}
-
 	}
 }
