@@ -48,6 +48,7 @@
     <Compile Include="Types\BaseClassV1.cs" />
     <Compile Include="Types\BaseClass.cs" />
     <Compile Include="Types\TypeTreeV2.cs" />
+    <Compile Include="BinarySection.cs" />
     <Compile Include="UnityBinaryReader.cs" />
     <Compile Include="Types\ClassTableV2.cs" />
     <Compile Include="Types\ClassTableV3.cs" />

@@ -25,6 +25,11 @@ namespace UnityReader
 			_stream = stream;
 		}
 
+		public BinarySection StartSection()
+		{
+			return new BinarySection(_stream);
+		}
+
 		public bool ReadBool()
 		{
 			return (ReadByte()) != 0x00;
