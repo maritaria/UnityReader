@@ -9,7 +9,7 @@ namespace UnityReader.Types
 		public string Signature { get; set; }
 		public Attributes Flags { get; set; }
 
-		public override void Read(UnityBinaryReader reader, SerializedFileHeader header)
+		protected override void ReadCore(UnityBinaryReader reader, SerializedFileHeader header)
 		{
 			Signature = reader.ReadString();
 			Flags = (Attributes)reader.ReadInt32();

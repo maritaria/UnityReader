@@ -12,7 +12,7 @@ namespace UnityReader.Objects
 		public void Read(UnityBinaryReader reader, SerializedFileHeader header)
 		{
 			Objects.Clear();
-			uint count = reader.ReadUInt32();
+			int count = reader.ReadInt32();
 			for (int i = 0; i < count; i++)
 			{
 				ObjectInfo obj = new ObjectInfo();
@@ -21,6 +21,7 @@ namespace UnityReader.Objects
 				{
 					reader.Align(4);
 				}
+				Console.WriteLine($"ObjectInfo: {obj.ObjectID}\t{obj.Offset}+{obj.Size}\t?{obj.unknown}");
 				Objects.Add(obj);
 			}
 		}

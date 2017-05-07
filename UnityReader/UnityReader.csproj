@@ -43,7 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ObjectIdentifiers\ObjectIdentifier.cs" />
+    <Compile Include="ObjectIdentifiers\ObjectIdentifierTable.cs" />
     <Compile Include="Objects\ObjectInfoTable.cs" />
+    <Compile Include="SerializedFileObjects.cs" />
     <Compile Include="Types\BaseClassV2.cs" />
     <Compile Include="Types\BaseClassV1.cs" />
     <Compile Include="Types\BaseClass.cs" />
@@ -65,7 +68,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="globalgamemanagers">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="globalgamemanagers.assets">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="level0">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="mod-nuterra">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

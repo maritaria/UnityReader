@@ -7,13 +7,12 @@ namespace UnityReader.Types
 	public class ClassTableV3 : ClassTableV2
 	{
 		public bool Embedded { get; set; }
-		public override void Read(UnityBinaryReader reader, SerializedFileHeader header)
+		protected override void ReadCore(UnityBinaryReader reader, SerializedFileHeader header)
 		{
 			Signature = reader.ReadString();
 			Flags = (Attributes)reader.ReadInt32();
 			Embedded = reader.ReadBool();
 			ReadBaseClasses(reader, header);
-			reader.ReadInt32();
 		}
 
 		private void ReadBaseClasses(UnityBinaryReader reader, SerializedFileHeader header)
@@ -23,11 +22,27 @@ namespace UnityReader.Types
 			for (int i = 0; i < classCount; i++)
 			{
 				var baseClass = ReadBaseClass(reader, header);
+
+				Console.WriteLine($"New: {baseClass.ClassID} {baseClass.AlternateCount} {baseClass.unknown}");
+				Console.WriteLine($"\t{baseClass.OldTypeHash}");
+				Console.WriteLine($"\t{baseClass.ScriptID}");
 				Classes.Add(baseClass.ClassID, baseClass);
+				if (baseClass.AlternateCount != -1)
+				{
+					for (int j = 0; j < baseClass.AlternateCount; j++)
+					{
+						var alt = ReadBaseClass(reader, header);
+						Console.WriteLine($"\tAlt: {alt.ClassID} {alt.AlternateCount} {alt.unknown}");
+						Console.WriteLine($"\t\t{alt.OldTypeHash}");
+						Console.WriteLine($"\t\t{alt.ScriptID}");
+						baseClass.Alternatives.Add(alt);
+						i++;
+					}
+				}
 			}
 		}
 
-		private BaseClass ReadBaseClass(UnityBinaryReader reader, SerializedFileHeader header)
+		private BaseClassV2 ReadBaseClass(UnityBinaryReader reader, SerializedFileHeader header)
 		{
 			var baseClass = new BaseClassV2();
 			baseClass.Read(reader, header, this);

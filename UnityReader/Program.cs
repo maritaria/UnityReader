@@ -8,7 +8,7 @@ namespace UnityReader
 	{
 		private static void Main(string[] args)
 		{
-			using (FileStream fs = File.OpenRead("level0"))
+			using (FileStream fs = File.OpenRead("mod-nuterra")) // level0 globalgamemanagers
 			{
 				var reader = new UnityBinaryReader(fs);
 				var file = new SerializedFile();

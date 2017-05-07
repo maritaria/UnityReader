@@ -17,6 +17,8 @@ namespace UnityReader
 #warning Build system to load stuff in memory instead
 		}
 
+		public string PositionHex => string.Format("0x{0:X4}", Position);
+
 		public bool IsLittleEndian { get; set; } = BitConverter.IsLittleEndian;
 
 		public UnityBinaryReader(Stream stream)

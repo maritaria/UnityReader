@@ -7,17 +7,19 @@ namespace UnityReader.Types
 	{
 		public UnityHash ScriptID { get; set; }
 		public UnityHash OldTypeHash { get; set; }
+		public byte unknown;
+		public short AlternateCount { get; set; } //-1 ignore
 
-		public override void Read(UnityBinaryReader reader, SerializedFileHeader header, ClassTableV3 table)
+		public HashSet<BaseClassV2> Alternatives { get; } = new HashSet<BaseClassV2>();
+
+		protected override void ReadCore(UnityBinaryReader reader, SerializedFileHeader header, ClassTableV3 table)
 		{
 			ClassID = reader.ReadInt32();
-			if (ClassID < 0)
+			unknown = reader.ReadByte();
+			AlternateCount = reader.ReadInt16();
+			if (AlternateCount != -1)
 			{
 				ScriptID = reader.ReadHash();
-			}
-			else
-			{
-				byte[] unknown = reader.ReadBytes(3);
 			}
 			OldTypeHash = reader.ReadHash();
 			if (table.Embedded)

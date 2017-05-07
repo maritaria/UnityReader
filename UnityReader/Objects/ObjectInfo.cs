@@ -4,33 +4,24 @@ namespace UnityReader.Objects
 {
 	public class ObjectInfo
 	{
-		private uint _start;
-		private uint _size;
 
 		public long ObjectID { get; set; }
 		public int TypeID { get; set; }
-		public short ClassID { get; set; }
-		public short ScriptTypeIndex { get; set; }
-		public bool Stripped { get; set; }
-
+		public int unknown { get; set; }
+		public uint Offset { get; set; }
+		public uint Size { get; set; }
 
 		public void Read(UnityBinaryReader reader, SerializedFileHeader header)
 		{
+			reader.Align(4);
 			ObjectID = reader.ReadInt64();
-			_start = reader.ReadUInt32();
-			_size = reader.ReadUInt32();
-			TypeID = reader.ReadInt32();
-			ClassID = reader.ReadInt16();
-			if (header.Version < 14)
+			Offset = reader.ReadUInt32();
+			Size = reader.ReadUInt32();
+			unknown = reader.ReadInt32();
+			if (unknown != 0)
 			{
-				Stripped = reader.ReadInt16() != 0;
-			}
-			else
-			{
-				ScriptTypeIndex = reader.ReadInt16();
-				Stripped = reader.ReadBool();
-			}
 
+			}
 		}
 	}
 }
