@@ -43,44 +43,53 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ObjectIdentifiers\ObjectIdentifier.cs" />
-    <Compile Include="ObjectIdentifiers\ObjectIdentifierTable.cs" />
-    <Compile Include="Objects\ObjectInfoTable.cs" />
-    <Compile Include="SerializedFileObjects.cs" />
-    <Compile Include="Types\BaseClassV2.cs" />
-    <Compile Include="Types\BaseClassV1.cs" />
-    <Compile Include="Types\BaseClass.cs" />
-    <Compile Include="Types\TypeTreeV2.cs" />
-    <Compile Include="BinarySection.cs" />
+    <Compile Include="AssetsFile.cs" />
+    <Compile Include="LocalUnityContext.cs" />
+    <Compile Include="UnityContext.cs" />
     <Compile Include="UnityBinaryReader.cs" />
-    <Compile Include="Types\ClassTableV2.cs" />
-    <Compile Include="Types\ClassTableV3.cs" />
-    <Compile Include="Types\ClassTable.cs" />
-    <Compile Include="FileIdentifier.cs" />
-    <Compile Include="Objects\ObjectInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SerializedFile.cs" />
-    <Compile Include="SerializedFileHeader.cs" />
-    <Compile Include="SerializedFileMetadata.cs" />
-    <Compile Include="Types\TypeTreeV1.cs" />
-    <Compile Include="UnityHash.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="globalgamemanagers">
+    <None Include="data\globalgamemanagers">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="globalgamemanagers.assets">
+    <None Include="data\globalgamemanagers.assets">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="level0">
+    <None Include="data\level0">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="mod-nuterra">
+    <None Include="data\randd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="data\resources.assets">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="data\resources.assets.resS">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="data\resources.resource">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="data\Resources\unity default resources">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="data\Resources\unity_builtin_extra">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="data\sharedassets0.assets">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="data\sharedassets0.assets.resS">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="data\sharedassets0.resource">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

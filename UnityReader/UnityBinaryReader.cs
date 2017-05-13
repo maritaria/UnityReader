@@ -27,11 +27,6 @@ namespace UnityReader
 			_stream = stream;
 		}
 
-		public BinarySection StartSection()
-		{
-			return new BinarySection(_stream);
-		}
-
 		public bool ReadBool()
 		{
 			return (ReadByte()) != 0x00;
@@ -41,6 +36,11 @@ namespace UnityReader
 		{
 			byte[] buffer = ReadBytes(2);
 			return BitConverter.ToInt16(buffer, 0);
+		}
+		public uint ReadUInt16()
+		{
+			byte[] buffer = ReadBytes(2);
+			return BitConverter.ToUInt16(buffer, 0);
 		}
 
 		public char ReadChar()
@@ -65,6 +65,12 @@ namespace UnityReader
 		{
 			byte[] buffer = ReadBytes(8);
 			return BitConverter.ToInt64(buffer, 0);
+		}
+
+		public ulong ReadUInt64()
+		{
+			byte[] buffer = ReadBytes(8);
+			return BitConverter.ToUInt64(buffer, 0);
 		}
 
 		public byte ReadByte()
@@ -92,10 +98,16 @@ namespace UnityReader
 			return result;
 		}
 
-		public string ReadString(int limit, Encoding encoding)
+		public Hash128 ReadHash()
+		{
+			byte[] data = ReadBytes(16);
+			return new Hash128 { Bytes = data };
+		}
+
+		public string ReadString(Encoding encoding)
 		{
 			List<byte> data = new List<byte>();
-			for (int i = 0; i < limit; i++)
+			while (true)
 			{
 				byte raw = ReadByte();
 				if (raw == 0x00)
@@ -107,20 +119,9 @@ namespace UnityReader
 			return encoding.GetString(data.ToArray());
 		}
 
-		public UnityHash ReadHash()
-		{
-			byte[] data = ReadBytes(16);
-			return new UnityHash(data);
-		}
-
-		public string ReadString(int limit)
-		{
-			return ReadString(limit, Encoding.ASCII);
-		}
-
 		public string ReadString()
 		{
-			return ReadString(256);
+			return ReadString(Encoding.ASCII);
 		}
 
 		public string ReadStringFixed(int length, Encoding encoding)
