@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using UnityReader.Types;
 
 namespace UnityReader
 {
@@ -13,6 +12,8 @@ namespace UnityReader
 		private static string LibraryReplacement = "Resources";
 		private string _baseDir;
 		private Dictionary<string, AssetsFile> _loadedFiles = new Dictionary<string, AssetsFile>();
+
+		public TypeRegistry SerializationTypes { get; } = new TypeRegistry();
 
 		public LocalUnityContext(string baseDir)
 		{
@@ -25,12 +26,16 @@ namespace UnityReader
 			{
 				name = Path.Combine(LibraryReplacement, name.Substring(LibraryPrefix.Length));
 			}
-
-			string path = Path.Combine(_baseDir, name);
-			using (FileStream fs = File.OpenRead(path))
+			AssetsFile result;
+			if (_loadedFiles.TryGetValue(name, out result))
 			{
-				var reader = new UnityBinaryReader(fs);
-				var file = new AssetsFile(this, reader);
+				return result;
+			}
+			else
+			{
+				string path = Path.Combine(_baseDir, name);
+				byte[] data = File.ReadAllBytes(path);
+				var file = new AssetsFile(this, data);
 				_loadedFiles.Add(name, file);
 				return file;
 			}

@@ -33,6 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="LZ4, Version=1.0.15.93, Culture=neutral, PublicKeyToken=62e1b5ec1eec9bdd, processorArchitecture=MSIL">
+      <HintPath>..\packages\lz4net.1.0.15.93\lib\net4-client\LZ4.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -43,53 +47,128 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssetFileInfo.cs" />
     <Compile Include="AssetsFile.cs" />
+    <Compile Include="DependencyList.cs" />
+    <Compile Include="AssetsFileHeader.cs" />
+    <Compile Include="AssetsFileTable.cs" />
+    <Compile Include="DerPopoClassDatabase.cs" />
+    <Compile Include="Guid128.cs" />
+    <Compile Include="Hash128.cs" />
     <Compile Include="LocalUnityContext.cs" />
+    <Compile Include="AssetData.cs" />
+    <Compile Include="Types\AssetObject.cs" />
+    <Compile Include="Types\AssetReference.cs" />
+    <Compile Include="PreloadList.cs" />
+    <Compile Include="Types\AudioManager.cs" />
+    <Compile Include="Types\ColorByteRgba.cs" />
+    <Compile Include="Types\EnlightenSceneMapping.cs" />
+    <Compile Include="Types\GameManager.cs" />
+    <Compile Include="Types\GISettings.cs" />
+    <Compile Include="Types\InputManager.cs" />
+    <Compile Include="Types\LightmapData.cs" />
+    <Compile Include="Types\LightProbes.cs" />
+    <Compile Include="Types\NamedAssetData.cs" />
+    <Compile Include="Types\ParticleAnimator.cs" />
+    <Compile Include="Types\PreloadData.cs" />
+    <Compile Include="Types\Shader.cs" />
+    <Compile Include="Types\Texture.cs" />
+    <Compile Include="Types\TimeManager.cs" />
+    <Compile Include="Types\UnityPropertySheet.cs" />
+    <Compile Include="Types\UnityTexEnv.cs" />
+    <Compile Include="Types\UnityTypeAttribute.cs" />
+    <Compile Include="Types\ColorFloatRgba.cs" />
+    <Compile Include="Types\Cubemap.cs" />
+    <Compile Include="Types\LightmapSettings.cs" />
+    <Compile Include="Types\Material.cs" />
+    <Compile Include="Types\RenderSettings.cs" />
+    <Compile Include="Types\Light.cs" />
+    <Compile Include="Types\Texture2D.cs" />
+    <Compile Include="Types\TypeRegistry.cs" />
+    <Compile Include="Types\Component.cs" />
+    <Compile Include="Types\GameObject.cs" />
+    <Compile Include="Types\MonoBehaviour.cs" />
+    <Compile Include="Types\MonoScript.cs" />
+    <Compile Include="Types\Quaternion.cs" />
+    <Compile Include="Types\Transform.cs" />
+    <Compile Include="Types\Vector2.cs" />
+    <Compile Include="Types\Vector3.cs" />
+    <Compile Include="Types\Vector4.cs" />
+    <Compile Include="TypeTree.cs" />
+    <Compile Include="Unity5Type.cs" />
     <Compile Include="UnityContext.cs" />
     <Compile Include="UnityBinaryReader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnityElement.cs" />
+    <Compile Include="UnityList.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="data\globalgamemanagers">
+    <None Include="TestData\globalgamemanagers">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="data\globalgamemanagers.assets">
+    <None Include="TestData\globalgamemanagers.assets">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="data\level0">
+    <None Include="TestData\level0">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="data\randd">
+    <None Include="TestData\randd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="data\resources.assets">
+    <None Include="TestData\resources.assets">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="data\resources.assets.resS">
+    <None Include="TestData\resources.assets.resS">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="data\resources.resource">
+    <None Include="TestData\resources.resource">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="data\Resources\unity default resources">
+    <None Include="TestData\Resources\unity default resources">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="data\Resources\unity_builtin_extra">
+    <None Include="TestData\Resources\unity_builtin_extra">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="data\sharedassets0.assets">
+    <None Include="TestData\sharedassets0.assets">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="data\sharedassets0.assets.resS">
+    <None Include="TestData\sharedassets0.assets.resS">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="data\sharedassets0.resource">
+    <None Include="TestData\sharedassets0.resource">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="TestData\Types\unity-3.4.0f5.dat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\Types\unity-3.5.0f5.dat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\Types\unity-4.0.0f7.dat" />
+    <None Include="TestData\Types\unity-4.1.5f1.dat" />
+    <None Include="TestData\Types\unity-4.2.2f1.dat" />
+    <None Include="TestData\Types\unity-4.3.4f1.dat" />
+    <None Include="TestData\Types\unity-4.5.4f1.dat" />
+    <None Include="TestData\Types\unity-4.6.4f1.dat" />
+    <None Include="TestData\Types\unity-4.7.2f1.dat" />
+    <None Include="TestData\Types\unity-5.0.1f1.dat" />
+    <None Include="TestData\Types\unity-5.1.1p3.dat" />
+    <None Include="TestData\Types\unity-5.2.0f3.dat" />
+    <None Include="TestData\Types\unity-5.3.1p3.dat" />
+    <None Include="TestData\Types\unity-5.4.0f3.dat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\Types\unity-5.5.0f3.dat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="TestData\Types\types-5.5.0f3.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
