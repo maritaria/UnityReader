@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TypeDatabase>
+  <TypeTable UnityVersion="5.5.0f3">
+    <!-- Templates -->
+    <UnityType Type="AssetReference">
+      <Value Type="Int32" Name="FileID" />
+      <Value Type="Int64" Name="PathID" />
+    </UnityType>
+    <UnityType Type="Vector2">
+      <Value Type="Float" Name="X" />
+      <Value Type="Float" Name="Y" />
+    </UnityType>
+    <UnityType Type="Vector3">
+      <Value Type="Float" Name="X" />
+      <Value Type="Float" Name="Y" />
+      <Value Type="Float" Name="Z" />
+    </UnityType>
+    <UnityType Type="Vector4">
+      <Value Type="Float" Name="X" />
+      <Value Type="Float" Name="Y" />
+      <Value Type="Float" Name="Z" />
+      <Value Type="Float" Name="W" />
+    </UnityType>
+    <UnityType Type="Quaternion">
+      <Value Type="Float" Name="X" />
+      <Value Type="Float" Name="Y" />
+      <Value Type="Float" Name="Z" />
+      <Value Type="Float" Name="W" />
+    </UnityType>
+    <UnityType Type="ColorByteRgba">
+      <Value Type="Byte" Name="R" />
+      <Value Type="Byte" Name="G" />
+      <Value Type="Byte" Name="B" />
+      <Value Type="Byte" Name="A" />
+    </UnityType>
+    <!-- Actual Types -->
+    <UnityType AssetCode="0" Type="UnityObject" />
+    <UnityType AssetCode="1" Type="GameObject">
+      <Array Name="Components" Type="AssetReference" />
+      <Value Type="UInt32" Name="Layer" />
+      <Value Type="String" Name="Name" />
+      <Align BlockSize="4" />
+      <Value Type="UInt16" Name="Tag" />
+      <Value Type="Boolean" Name="IsActive" />
+    </UnityType>
+    <UnityType AssetCode="2" Type="Component">
+      <Object Name="GameObject">
+        <Value Type="Int32" Name="FileID" />
+        <Value Type="Int64" Name="PathID" />
+      </Object>
+    </UnityType>
+    <UnityType AssetCode="4" Type="Transform">
+      <Object Name="GameObject">
+        <Value Type="Int32" Name="FileID" />
+        <Value Type="Int64" Name="PathID" />
+      </Object>
+      <Value Type="Quaternion" Name="LocalRotation" />
+      <Value Type="Vector3" Name="LocalPosition" />
+      <Value Type="Vector3" Name="LocalScale" />
+      <Array Name="Children" Type="AssetReference" />
+      <Value Name="Parent" Type="AssetReference" />
+    </UnityType>
+    <UnityType AssetCode="5" Type="TimeManager">
+      <Value Type="Float" Name="FixedTimestep" />
+      <Value Type="Float" Name="MaximumAllowedTimestep" />
+      <Value Type="Float" Name="TimeScale" />
+      <Value Type="Float" Name="MaximumParticleTimestep" />
+    </UnityType>
+    <UnityType AssetCode="11" Type="AudioManager">
+      <Value Type="Float" Name="Volume" />
+      <Value Type="Float" Name="RolloffScale" />
+      <Value Type="Float" Name="DopplerFactor" />
+      <Value Type="Int32" Name="DefaultSpeakerMode" />
+      <Value Type="Int32" Name="SampleRate" />
+      <Value Type="Int32" Name="DspBufferSize" />
+      <Value Type="Int32" Name="VirtualVoiceCount" />
+      <Value Type="Int32" Name="RealVoiceCount" />
+      <Value Type="String" Name="SpatializerPlugin"/>
+      <Value Type="Boolean" Name="DisableAudio"/>
+      <Value Type="Boolean" Name="VirtualizeEffects"/>
+      <Align BlockSize="4"/>
+    </UnityType>
+    <UnityType AssetCode="12" Type="ParticleAnimator">
+      <Value Type="AssetReference" Name="GameObject" />
+      <Value Type="Boolean" Name="AnimatesColor" />
+      <Align BlockSize="4"/>
+      <FixedArray Type="ColorByteRgba" Name="ColorAnimation" Size="5"/>
+      <Value Type="Vector3" Name="WorldRotationAxis"/>
+      <Value Type="Vector3" Name="LocalRotationAxis"/>
+      <Value Type="Float" Name="SizeGrow"/>
+      <Value Type="Vector3" Name="RandomForce"/>
+      <Value Type="Vector3" Name="Force"/>
+      <Value Type="Float" Name="Damping"/>
+      <Value Type="Boolean" Name="StopSimulation"/>
+      <Value Type="Boolean" Name="AutoDestruct"/>
+    </UnityType>
+    <UnityType AssetCode="114" Type="MonoBehaviour">
+      <Value Type="AssetReference" Name="GameObject" />
+      <Value Type="Boolean" Name="IsEnabled" />
+      <Align BlockSize="4" />
+      <Object Name="Script">
+        <Value Type="Int32" Name="FileID" />
+        <Value Type="Int64" Name="PathID" />
+      </Object>
+      <Value Type="String" Name="Name" />
+      <Align BlockSize="4" />
+    </UnityType>
+    <UnityType AssetCode="115" Type="MonoScript">
+      <Value Type="String" Name="Name" />
+      <Align BlockSize="4" />
+      <Value Type="Int32" Name="ExecutionOrder"/>
+      <Skip NumBytes="16" /><!--Hash-->
+      <Value Type="String" Name="ClassName"/>
+      <Align BlockSize="4" />
+      <Value Type="String" Name="Namespace"/>
+      <Align BlockSize="4" />
+      <Value Type="String" Name="AssemblyName"/>
+      <Align BlockSize="4" />
+      <Value Type="Boolean" Name="IsEditorScript"/>
+    </UnityType>
+  </TypeTable>
+</TypeDatabase>

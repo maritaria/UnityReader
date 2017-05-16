@@ -1,9 +1,10 @@
-﻿namespace UnityReader.Types
+﻿using UnityReader.Definitions;
+
+namespace UnityReader.Types
 {
-	public abstract class Texture : NamedAssetData
+	[UnityType(AssetCodes.Texture)]
+	public abstract class Texture : AssetObject
 	{
 		public virtual string Name { get; set; }
-
-		public abstract void Read(AssetsFile owner, UnityBinaryReader reader);
 	}
 }

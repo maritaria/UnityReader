@@ -3,6 +3,6 @@
 
 	public interface UnityElement
 	{
-		void Read(UnityBinaryReader reader, int version);
+		void Read(UnityReader reader, int version);
 	}
 }

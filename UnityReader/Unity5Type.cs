@@ -16,7 +16,7 @@ namespace UnityReader
 		public ICollection<Field> TypeFields => _fields;
 		public StringTable Strings { get; } = new StringTable();
 
-		public Unity5Type(UnityBinaryReader reader, int version, bool embedded)
+		public Unity5Type(UnityReader reader, int version, bool embedded)
 		{
 			if (reader == null) throw new ArgumentNullException(nameof(reader));
 			if (version < 13) throw new ArgumentOutOfRangeException(nameof(version), "this type does not support the given format");
@@ -52,7 +52,7 @@ namespace UnityReader
 			}
 		}
 
-		private void ReadEmbedded(UnityBinaryReader reader, int version)
+		private void ReadEmbedded(UnityReader reader, int version)
 		{
 			int fieldCount = reader.ReadInt32();
 			int stringTableLength = reader.ReadInt32();
@@ -69,7 +69,7 @@ namespace UnityReader
 			ReadStringTable(reader, stringTableLength);
 		}
 
-		private void ReadStringTable(UnityBinaryReader reader, int stringTableLength)
+		private void ReadStringTable(UnityReader reader, int stringTableLength)
 		{
 			var stringTableBytes = reader.ReadBytes(stringTableLength);
 			Strings.Read(stringTableBytes, Encoding.ASCII);
@@ -129,7 +129,7 @@ namespace UnityReader
 			public string Type { get; set; }
 			public string Name { get; set; }
 
-			public Field(UnityBinaryReader reader)
+			public Field(UnityReader reader)
 			{
 				Version = reader.ReadInt16();
 				Depth = reader.ReadByte();

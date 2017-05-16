@@ -1,15 +1,10 @@
-﻿namespace UnityReader.Types
-{
+﻿using UnityReader.Definitions;
 
-	public class Component : AssetData
+namespace UnityReader.Types
+{
+	[UnityType(AssetCodes.Component)]
+	public class Component : AssetObject
 	{
 		public AssetReference<GameObject> GameObject { get; set; }
-
-		public virtual void Read(AssetsFile owner, UnityBinaryReader reader)
-		{
-			GameObject = new AssetReference<GameObject>();
-			GameObject.Read(owner, reader);
-		}
 	}
-
 }

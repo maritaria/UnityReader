@@ -21,14 +21,14 @@ namespace UnityReader
 		public void Read(Stream data)
 		{
 			if (data == null) throw new ArgumentNullException(nameof(data));
-			var reader = new UnityBinaryReader(data);
+			var reader = new UnityReader(data);
 			Header = new DatabaseHeader(reader);
 
 			byte[] buffer = reader.ReadBytes(Header.CompressedSize);
 			byte[] uncompressed = LZ4Codec.Decode(buffer, 0, buffer.Length, Header.UncompressedSize);
 			using (var ms = new MemoryStream(uncompressed))
 			{
-				UnityBinaryReader lz4Reader = new UnityBinaryReader(ms);
+				UnityReader lz4Reader = new UnityReader(ms);
 				int classCount = lz4Reader.ReadInt32();
 				Classes = new TypeClass[classCount];
 				for (int i = 0; i < classCount; i++)
@@ -65,18 +65,35 @@ namespace UnityReader
 
 		private void WriteFields(XmlDocument doc, XmlElement classNode, TypeClass cls)
 		{
-			foreach (TypeField field in cls.Fields)
+			if (!cls.Fields.Any()) { return; }
+			Stack<KeyValuePair<TypeField, XmlElement>> stack = new Stack<KeyValuePair<TypeField, XmlElement>>();
+			stack.Push(new KeyValuePair<TypeField, XmlElement>(cls.Fields.First(), classNode));
+			foreach (TypeField field in cls.Fields.Skip(1))
 			{
 				var fieldNode = doc.CreateElement("Field");
-				fieldNode.SetAttribute("Name", field.Name);
-				if (field.IsArray)
-				{
-					fieldNode.SetAttribute("isArray", "1");
-				}
+				fieldNode.SetAttribute("Align", field.Aligned ? "1" : "0");
 				fieldNode.SetAttribute("Type", field.TypeName);
-				fieldNode.SetAttribute("Depth", field.Depth.ToString());
 				fieldNode.SetAttribute("Size", field.Size.ToString());
-				classNode.AppendChild(fieldNode);
+				fieldNode.SetAttribute("Name", field.Name);
+
+				int previousDepth = stack.Peek().Key.Depth;
+				if (previousDepth > field.Depth)
+				{
+					//Closed leaf
+					while (stack.Peek().Key.Depth > field.Depth)
+					{
+						stack.Pop();
+					}
+					stack.Pop();
+				}
+				else if (previousDepth == field.Depth)
+				{
+					//Sibling
+					stack.Pop();
+				}
+				stack.Peek().Value.AppendChild(fieldNode);
+				stack.Push(new KeyValuePair<TypeField, XmlElement>(field, fieldNode));
+				previousDepth = field.Depth;
 			}
 		}
 
@@ -115,7 +132,7 @@ namespace UnityReader
 			public int StringTableLength;
 			public int StringTablePosition;
 
-			public DatabaseHeader(UnityBinaryReader reader)
+			public DatabaseHeader(UnityReader reader)
 			{
 				if (reader == null) throw new ArgumentNullException(nameof(reader));
 				string magic = reader.ReadStringFixed(4);
@@ -179,7 +196,7 @@ namespace UnityReader
 
 			public string Name => _database.ResolveString(_namePointer);
 
-			public TypeClass(UnityBinaryReader reader, DerPopoClassDatabase database)
+			public TypeClass(UnityReader reader, DerPopoClassDatabase database)
 			{
 				_database = database;
 
@@ -251,13 +268,15 @@ namespace UnityReader
 			private short Version;
 			private int Flags;
 
+			public bool Aligned => (Flags & 0x4000) > 0;
+
 			public TypeClass ValueType => _database.GetType(TypeName);
 
 			public string Name => _database.ResolveString(_fieldNamePointer);
 
 			public string TypeName => _database.ResolveString(_typeNamePointer);
 
-			public TypeField(UnityBinaryReader reader, DerPopoClassDatabase database)
+			public TypeField(UnityReader reader, DerPopoClassDatabase database)
 			{
 				_database = database;
 				_typeNamePointer = reader.ReadInt32();

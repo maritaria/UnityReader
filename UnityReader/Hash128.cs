@@ -3,19 +3,14 @@ using System.Linq;
 
 namespace UnityReader
 {
-	public sealed class Hash128 : AssetData
+	public sealed class Hash128
 	{
 		public byte[] Bytes { get; set; }
 
-		public void Read(UnityBinaryReader reader, int version)
+		public void Read(UnityReader reader, int version)
 		{
 			if (reader == null) throw new ArgumentNullException(nameof(reader));
 			Bytes = reader.ReadBytes(16);
-		}
-
-		public void Read(AssetsFile owner, UnityBinaryReader reader)
-		{
-			Read(reader, owner.Header.Version);
 		}
 
 		public override string ToString()

@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TypeSet>
+  <Type Name="GameObject">
+    <Value Name="Name" Type="NullString" />
+    <Array Name="Description" Type="Byte" />
+    <Value Name="Parent" Type="AssetReference" />
+    <Value Name="Position" Type="Vector3" />
+    <Array Name="Components" Type="AssetReference" />
+    <Align To="4" />
+  </Type>
+  <lol>
+    <a></a>
+  </lol>
+  <Type Name="AssetReference">
+    <Value Type="Int32" />
+    <Value Type="Int64" />
+  </Type>
+  <Type Name="Vector3">
+    <Value Type="Float" Name="X" />
+    <Value Type="Float" Name="Y" />
+    <Value Type="Float" Name="Z" />
+  </Type>
+</TypeSet>

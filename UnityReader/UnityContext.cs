@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityReader.Types;
+using UnityReader.Definitions;
 
 namespace UnityReader
 {
 	public interface UnityContext
 	{
-		TypeRegistry SerializationTypes { get; }
+		TypeTable TypeTable { get; }
 
 		AssetsFile LoadFile(string name);
 	}

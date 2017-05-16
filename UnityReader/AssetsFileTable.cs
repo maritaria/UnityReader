@@ -15,7 +15,7 @@ namespace UnityReader
 			_file = file;
 		}
 
-		public void Read(UnityBinaryReader reader)
+		public void Read(UnityReader reader)
 		{
 			_items.Clear();
 			int count = reader.ReadInt32();

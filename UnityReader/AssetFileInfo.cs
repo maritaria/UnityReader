@@ -1,23 +1,28 @@
 ﻿using System;
+using Newtonsoft.Json.Linq;
+using UnityReader.Types;
 
 namespace UnityReader
 {
 	public sealed class AssetFileInfo
 	{
-		private byte[] _buffer;
+		private byte[] _data;
+		private JObject _newValue;
 		private int _fileTypeOrIndex;
 		private long _absolutePosition;
+		private uint _dataOffset;
+		private uint _dataLength;
+		public bool Modified { get; private set; }
+
 		public AssetsFile Owner { get; }
-		public long Index { get; set; }
-		public uint DataOffset { get; set; }
-		public uint AssetSize { get; set; }
-		public int InheritedUnityClass { get; set; }//read 16 bit
-		public short ScriptIndex { get; set; }
-		public byte Unknown { get; set; }
+		public long Index { get; private set; }
+		public int InheritedUnityClass { get; private set; }//read 16 bit
+		public short ScriptIndex { get; private set; }
+		public byte Unknown { get; private set; }
 
-		public int ClassID { get; set; }
+		public AssetCodes ClassID { get; private set; }
 
-		public AssetFileInfo(AssetsFile file, UnityBinaryReader reader)
+		public AssetFileInfo(AssetsFile file, UnityReader reader)
 		{
 			Owner = file;
 			var version = file.Header.Version;
@@ -26,33 +31,29 @@ namespace UnityReader
 			ParseData(file, version);
 		}
 
-		private void ReadData(UnityBinaryReader reader, int version)
+		private void ReadData(UnityReader reader, int version)
 		{
-			if (version >= 14)
-			{
-				reader.Align(4);
-			}
-
 			if (version < 14)
 			{
 				Index = reader.ReadUInt32();
 			}
 			else
 			{
+				reader.Align(4);
 				Index = reader.ReadInt64();
 			}
-			DataOffset = reader.ReadUInt32();
-			AssetSize = reader.ReadUInt32();
+			_dataOffset = reader.ReadUInt32();
+			_dataLength = reader.ReadUInt32();
 			_fileTypeOrIndex = reader.ReadInt32();
-			if (version >= 16)
-			{
-				InheritedUnityClass = 0;
-			}
-			else
+			if (version < 16)
 			{
 				InheritedUnityClass = reader.ReadInt16();
 			}
-			if (version > 16)
+			else
+			{
+				InheritedUnityClass = 0;
+			}
+			if (version > 16) // < 17
 			{
 				ScriptIndex = -1;
 				Unknown = 0;
@@ -68,7 +69,7 @@ namespace UnityReader
 		{
 			if (version < 16)
 			{
-				ClassID = _fileTypeOrIndex;
+				ClassID = (AssetCodes)_fileTypeOrIndex;
 			}
 			else
 			{
@@ -78,13 +79,13 @@ namespace UnityReader
 
 					if (type.ScriptIndex == -1)
 					{
-						ClassID = type.ClassID;
+						ClassID = (AssetCodes)type.ClassID;
 						InheritedUnityClass = type.ClassID;
 						ScriptIndex = -1;
 					}
 					else
 					{
-						ClassID = type.ClassID;
+						ClassID = (AssetCodes)type.ClassID;
 						InheritedUnityClass = type.ClassID;
 						ScriptIndex = type.ScriptIndex;
 					}
@@ -94,19 +95,36 @@ namespace UnityReader
 					throw new NotImplementedException();
 				}
 			}
-			_absolutePosition = file.Header.AssetsOffset + DataOffset;
-		}
-
-		public T GetAsset<T>() where T : AssetData
-		{
+			_absolutePosition = file.Header.AssetsOffset + _dataOffset;
 			using (var reader = Owner.CreateReader(_absolutePosition))
 			{
-				long oldPos = reader.Position;
-				reader.Position = _absolutePosition;
-				AssetData result = Owner.Context.SerializationTypes.CreateInstance<T>(ClassID);
-				result.Read(Owner, reader);
-				return (T)result;
+				_data = reader.ReadBytes((int)_dataLength);
 			}
+		}
+
+		public T ParseAssetData<T>() where T : AssetObject
+		{
+			var json = ParseAssetData();
+			var obj = json.ToObject<T>();
+			obj.Owner = Owner;
+			return obj;
+		}
+
+		public JObject ParseAssetData()
+		{
+			using (var reader = UnityReader.FromByteArray(_data))
+			{
+				var template = Owner.Context.TypeTable[ClassID];
+				var result = new JObject();
+				template.Read(reader, Owner.Context, result);
+				return result;
+			}
+		}
+
+		public void StoreAssetData(JObject data)
+		{
+			if (data == null) throw new ArgumentNullException(nameof(data));
+			_newValue = data;
 		}
 	}
 }

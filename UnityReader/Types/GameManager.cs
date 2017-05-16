@@ -1,17 +1,18 @@
-﻿namespace UnityReader.Types
+﻿using UnityReader.Definitions;
+
+namespace UnityReader.Types
 {
-	[UnityType(9)]
-	public abstract class GameManager : AssetData
+	[UnityType(AssetCodes.GameManager)]
+	public abstract class GameManager : AssetObject
 	{
-		public abstract void Read(AssetsFile owner, UnityBinaryReader reader);
 	}
 
-	[UnityType(6)]
+	[UnityType(AssetCodes.GlobalGameManager)]
 	public abstract class GlobalGameManager : GameManager
 	{
 	}
 
-	[UnityType(3)]
+	[UnityType(AssetCodes.LevelGameManager)]
 	public abstract class LevelGameManager : GameManager
 	{
 	}

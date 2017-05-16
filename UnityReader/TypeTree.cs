@@ -9,11 +9,12 @@ namespace UnityReader
 		public int TypeVersion { get; set; }
 		public bool HasTypeTree { get; set; }
 		public List<Unity5Type> Types { get; } = new List<Unity5Type>();
+		private Dictionary<int, Unity5Type> _types = new Dictionary<int, Unity5Type>();
 
 		private int _unknown;
 		private int _format;
 
-		public void Read(UnityBinaryReader reader, int version)
+		public void Read(UnityReader reader, int version)
 		{
 			_format = version;
 			HasTypeTree = true;
@@ -36,7 +37,9 @@ namespace UnityReader
 			{
 				for (int i = 0; i < fieldCount; i++)
 				{
-					Types.Add(new Unity5Type(reader, version, HasTypeTree));
+					var item = new Unity5Type(reader, version, HasTypeTree);
+					Types.Add(item);
+					_types.Add(item.ClassID, item);
 				}
 			}
 			else

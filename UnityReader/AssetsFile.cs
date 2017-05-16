@@ -33,13 +33,29 @@ namespace UnityReader
 			Dependencies.Read(reader, Header.Version);
 		}
 
-		public UnityBinaryReader CreateReader(long startingPos)
+		public UnityReader CreateReader(long startingPos)
 		{
 			MemoryStream ms = new MemoryStream(_buffer);
-			var reader = new UnityBinaryReader(ms);
+			var reader = new UnityReader(ms);
 			reader.Position = startingPos;
 			reader.IsLittleEndian = Header.IsLittleEndian;
 			return reader;
+		}
+
+		public void Write(UnityWriter writer)
+		{
+			PrepareWrite();
+			WriteCore(writer);
+		}
+
+		private void PrepareWrite()
+		{
+			throw new NotImplementedException();
+		}
+
+		private void WriteCore(UnityWriter writer)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityReader.Definitions;
 
 namespace UnityReader.Types
 {
-	[UnityType(11)]
-	public sealed class AudioManager : AssetData
+	[UnityType(AssetCodes.AudioManager)]
+	public sealed class AudioManager : AssetObject
 	{
 		public float Volume { get; set; }
 		public float RolloffScale { get; set; }
@@ -22,7 +23,7 @@ namespace UnityReader.Types
 		public bool DisableAudio { get; set; }
 		public bool VirtualizeEffects { get; set; }
 
-		public void Read(AssetsFile owner, UnityBinaryReader reader)
+		public void Read(AssetsFile owner, UnityReader reader)
 		{
 			Volume = reader.ReadFloat();
 			RolloffScale = reader.ReadFloat();

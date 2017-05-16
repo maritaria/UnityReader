@@ -8,7 +8,7 @@
 			public int FileID;
 			public long PathID;
 
-			void UnityElement.Read(UnityBinaryReader reader, int version)
+			void UnityElement.Read(UnityReader reader, int version)
 			{
 				FileID = reader.ReadInt32();
 				PathID = reader.ReadInt64();

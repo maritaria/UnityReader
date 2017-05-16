@@ -6,12 +6,12 @@ using System.Text;
 
 namespace UnityReader
 {
-	public sealed class UnityBinaryReader : IDisposable
+	public sealed class UnityReader : IDisposable
 	{
-		public static UnityBinaryReader FromByteArray(byte[] array)
+		public static UnityReader FromByteArray(byte[] array)
 		{
 			var ms = new MemoryStream(array);
-			return new UnityBinaryReader(ms);
+			return new UnityReader(ms);
 		}
 
 		private Stream _stream;
@@ -26,7 +26,7 @@ namespace UnityReader
 
 		public bool IsLittleEndian { get; set; } = BitConverter.IsLittleEndian;
 
-		public UnityBinaryReader(Stream stream)
+		public UnityReader(Stream stream)
 		{
 			if (stream == null) throw new ArgumentNullException(nameof(stream));
 			_stream = stream;
@@ -165,34 +165,6 @@ namespace UnityReader
 		public void Dispose()
 		{
 			((IDisposable)_stream).Dispose();
-		}
-
-		public T Read<T>(AssetsFile owner) where T : AssetData, new()
-		{
-			var result = new T();
-			result.Read(owner, this);
-			return result;
-		}
-
-		public ICollection<T> ReadArray<T>(AssetsFile owner) where T : AssetData, new()
-		{
-			int count = ReadInt32();
-			List<T> result = new List<T>(count);
-			for (int i = 0; i < count; i++)
-			{
-				result.Add(Read<T>(owner));
-			}
-			return result;
-		}
-
-		public void ReadArray<T>(AssetsFile owner, ICollection<T> storage) where T : AssetData, new()
-		{
-			int count = ReadInt32();
-			storage.Clear();
-			for (int i = 0; i < count; i++)
-			{
-				storage.Add(Read<T>(owner));
-			}
 		}
 	}
 }

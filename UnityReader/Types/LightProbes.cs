@@ -2,11 +2,8 @@
 
 namespace UnityReader.Types
 {
-	public sealed class LightProbes : AssetData
+	public sealed class LightProbes : AssetObject
 	{
-		public void Read(AssetsFile owner, UnityBinaryReader reader)
-		{
-			throw new NotImplementedException();
-		}
+#warning unfinished
 	}
 }

@@ -1,5 +1,8 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
+using System.Xml.Serialization;
+using UnityReader.Definitions;
 using UnityReader.Types;
 
 namespace UnityReader
@@ -9,15 +12,25 @@ namespace UnityReader
 		private static void Main(string[] args)
 		{
 			DerPopoClassDatabase db = new DerPopoClassDatabase();
-			using (FileStream fs = File.OpenRead("TestData/Types/unity-5.5.0f3.dat"))
+			using (FileStream fs = File.OpenRead("TestData\\DerPopo\\unity-5.5.0f3.dat"))
 			{
 				db.Read(fs);
 				db.Write();
 			}
 
-			UnityContext context = new LocalUnityContext("TestData");
-			var file = context.LoadFile("level0");
+			UnityContext context = new LocalUnityContext("TestData\\Assets");
 
+			using (FileStream fs = File.OpenRead("TestData\\typedefs.xml"))
+			{
+				XmlSerializer ser = new XmlSerializer(typeof(TypeDatabase));
+				var myDatabase = (TypeDatabase)ser.Deserialize(fs);
+				foreach (var type in myDatabase.Tables[0].Types)
+				{
+					context.TypeTable.AddTypeNode(type);
+				}
+			}
+			var file = context.LoadFile("globalgamemanagers");
+			FindScriptsInFile(file);
 			Console.WriteLine("Loading dependencies");
 			foreach (var dependency in file.Dependencies)
 			{
@@ -34,12 +47,11 @@ namespace UnityReader
 
 		private static void FindScriptsInFile(AssetsFile file)
 		{
-			foreach (AssetFileInfo info in file.Assets)
+			foreach (AssetFileInfo info in file.Assets.Where(info => info.ClassID == AssetCodes.MonoScript))
 			{
-				var obj = info.GetAsset<AssetData>();
-				if (obj is MonoScript)
+				var script = info.ParseAssetData<MonoScript>();
+				if (script.AssemblyName.Contains("Assembly"))
 				{
-					var script = (MonoScript)obj;
 					Console.WriteLine($"Script: {script.Name}");
 					Console.WriteLine($"  Assembly:  {script.AssemblyName}");
 					Console.WriteLine($"  Namespace: {script.Namespace}");

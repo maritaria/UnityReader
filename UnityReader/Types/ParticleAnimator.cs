@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityReader.Definitions;
 
 namespace UnityReader.Types
 {
-	[UnityType(12)]
-	public sealed class ParticleAnimator : AssetData
+	[UnityType(AssetCodes.ParticleAnimator)]
+	public sealed class ParticleAnimator : AssetObject
 	{
 		public AssetReference<GameObject> GameObject { get; set; }
 		public bool AnimatesColor { get; set; }
@@ -19,25 +20,5 @@ namespace UnityReader.Types
 		public float Damping { get; set; }
 		public bool StopSimulation { get; set; }
 		public bool AutoDestruct { get; set; }
-
-		public void Read(AssetsFile owner, UnityBinaryReader reader)
-		{
-			GameObject = reader.Read<AssetReference<GameObject>>(owner);
-			AnimatesColor = reader.ReadBool();
-			AnimationColors = new ColorByteRgba[5];
-			AnimationColors[0] = reader.Read<ColorByteRgba>(owner);
-			AnimationColors[1] = reader.Read<ColorByteRgba>(owner);
-			AnimationColors[2] = reader.Read<ColorByteRgba>(owner);
-			AnimationColors[3] = reader.Read<ColorByteRgba>(owner);
-			AnimationColors[4] = reader.Read<ColorByteRgba>(owner);
-			WorldRotationAxis = reader.Read<Vector3>(owner);
-			LocalRotationAxis = reader.Read<Vector3>(owner);
-			SizeGrow = reader.ReadFloat();
-			RandomForce = reader.Read<Vector3>(owner);
-			Force = reader.Read<Vector3>(owner);
-			Damping = reader.ReadFloat();
-			StopSimulation = reader.ReadBool();
-			AutoDestruct = reader.ReadBool();
-		}
 	}
 }

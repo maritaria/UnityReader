@@ -5,11 +5,11 @@ namespace UnityReader.Types
 	[AttributeUsage(AttributeTargets.Class, Inherited = false)]
 	public sealed class UnityTypeAttribute : Attribute
 	{
-		public int ID { get; set; }
+		public AssetCodes AssetType { get; set; }
 
-		public UnityTypeAttribute(int classID)
+		public UnityTypeAttribute(AssetCodes classID)
 		{
-			ID = classID;
+			AssetType = classID;
 		}
 
 	}

@@ -44,7 +44,7 @@ namespace UnityReader
 			public int Type { get; set; }
 			public string AssetPath { get; set; }
 
-			void UnityElement.Read(UnityBinaryReader reader, int version)
+			void UnityElement.Read(UnityReader reader, int version)
 			{
 				BufferedPath = reader.ReadString();
 				Guid = new Guid128();

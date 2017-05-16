@@ -3,20 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityReader.Definitions;
 
 namespace UnityReader.Types
 {
-	[UnityType(13)]
+	[UnityType(AssetCodes.InputManager)]
 	public sealed class InputManager : GlobalGameManager
 	{
 		public ICollection<InputAxis> Axes { get; } = new List<InputAxis>();
 
-		public override void Read(AssetsFile owner, UnityBinaryReader reader)
-		{
-			reader.ReadArray(owner, Axes);
-		}
-
-		public sealed class InputAxis : NamedAssetData
+		public sealed class InputAxis
 		{
 			public string Name { get; set; }
 			public string DescriptiveName { get; set; }
@@ -34,7 +30,7 @@ namespace UnityReader.Types
 			public int Axis { get; set; }
 			public int JoyNum { get; set; }
 
-			public void Read(AssetsFile owner, UnityBinaryReader reader)
+			public void Read(AssetsFile owner, UnityReader reader)
 			{
 				Name = reader.ReadStringFixed(reader.ReadInt32());
 				DescriptiveName = reader.ReadStringFixed(reader.ReadInt32());

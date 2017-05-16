@@ -1,12 +1,11 @@
 ﻿using System;
+using UnityReader.Definitions;
 
 namespace UnityReader.Types
 {
+	[UnityType(AssetCodes.Shader)]
 	public sealed class Shader : AssetObject
 	{
-		public override void Read(AssetsFile owner, UnityBinaryReader reader)
-		{
-			throw new NotImplementedException();
-		}
+#warning unfinished
 	}
 }

@@ -7,7 +7,7 @@ namespace UnityReader
 	{
 		protected List<Item> Items { get; } = new List<Item>();
 
-		public void Read(UnityBinaryReader reader, int version)
+		public void Read(UnityReader reader, int version)
 		{
 			if (reader == null) throw new ArgumentNullException(nameof(reader));
 			int count = reader.ReadInt32();

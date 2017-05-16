@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using UnityReader.Types;
+using UnityReader.Definitions;
 
 namespace UnityReader
 {
@@ -10,10 +10,11 @@ namespace UnityReader
 	{
 		private static readonly string LibraryPrefix = @"library/";
 		private static string LibraryReplacement = "Resources";
+
 		private string _baseDir;
 		private Dictionary<string, AssetsFile> _loadedFiles = new Dictionary<string, AssetsFile>();
 
-		public TypeRegistry SerializationTypes { get; } = new TypeRegistry();
+		public TypeTable TypeTable { get; } = new TypeTable();
 
 		public LocalUnityContext(string baseDir)
 		{

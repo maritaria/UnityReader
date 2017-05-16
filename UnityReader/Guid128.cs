@@ -6,7 +6,7 @@
 		public long Lower { get; set; }
 		public long Upper { get; set; }
 
-		public void Read(UnityBinaryReader reader, int version)
+		public void Read(UnityReader reader, int version)
 		{
 			bool littleEndian = reader.IsLittleEndian;
 			reader.IsLittleEndian = false;

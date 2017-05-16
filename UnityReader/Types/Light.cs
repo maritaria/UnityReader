@@ -2,12 +2,8 @@
 
 namespace UnityReader.Types
 {
-	public sealed class Light : AssetData
+	public sealed class Light : AssetObject
 	{
-		public void Read(AssetsFile owner, UnityBinaryReader reader)
-		{
-#warning not implemented
-			throw new NotImplementedException();
-		}
+#warning notimplemented
 	}
 }

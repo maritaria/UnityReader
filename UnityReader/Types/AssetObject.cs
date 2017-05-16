@@ -1,9 +1,10 @@
 ﻿using System;
+using Newtonsoft.Json.Linq;
 
 namespace UnityReader.Types
 {
-	public abstract class AssetObject : AssetData
+	public abstract class AssetObject
 	{
-		public abstract void Read(AssetsFile owner, UnityBinaryReader reader);
+		public AssetsFile Owner { get; internal set; }
 	}
 }

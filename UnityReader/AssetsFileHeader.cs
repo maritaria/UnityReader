@@ -14,7 +14,7 @@ namespace UnityReader
 		public long AssetsOffset { get; private set; }
 		public long MetadataOffset { get; private set; }
 
-		public void Read(UnityBinaryReader reader)
+		public void Read(UnityReader reader)
 		{
 			if (reader == null) throw new ArgumentNullException(nameof(reader));
 			reader.IsLittleEndian = false;
