@@ -39,7 +39,7 @@ namespace UnityReader
 				{
 					var item = new Unity5Type(reader, version, HasTypeTree);
 					Types.Add(item);
-					_types.Add(item.ClassID, item);
+					//_types.Add(item.ClassID, item);
 				}
 			}
 			else

@@ -79,7 +79,7 @@ namespace FlexParse
 
 		public void Align(int blockSize)
 		{
-			int remainingBlock = blockSize - (int)(BaseStream.Position % blockSize);
+			int remainingBlock = (int)(BaseStream.Position % blockSize);
 			if (BaseStream.CanSeek)
 			{
 				BaseStream.Position += remainingBlock;

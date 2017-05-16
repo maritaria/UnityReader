@@ -16,9 +16,9 @@ namespace UnityReader
 
 		public AssetsFile Owner { get; }
 		public long Index { get; private set; }
-		public int InheritedUnityClass { get; private set; }//read 16 bit
-		public short ScriptIndex { get; private set; }
-		public byte Unknown { get; private set; }
+		public int InheritedUnityClass { get; private set; } = 0;//read 16 bit
+		public short ScriptIndex { get; private set; } = -1;
+		public byte Unknown { get; private set; } = 0;
 
 		public AssetCodes ClassID { get; private set; }
 
@@ -47,18 +47,10 @@ namespace UnityReader
 			_fileTypeOrIndex = reader.ReadInt32();
 			if (version < 16)
 			{
+				ClassID = (AssetCodes)_fileTypeOrIndex;
 				InheritedUnityClass = reader.ReadInt16();
 			}
-			else
-			{
-				InheritedUnityClass = 0;
-			}
-			if (version > 16) // < 17
-			{
-				ScriptIndex = -1;
-				Unknown = 0;
-			}
-			else
+			if (version < 17)
 			{
 				ScriptIndex = reader.ReadInt16();
 				Unknown = reader.ReadByte();
@@ -67,11 +59,7 @@ namespace UnityReader
 
 		private void ParseData(AssetsFile file, int version)
 		{
-			if (version < 16)
-			{
-				ClassID = (AssetCodes)_fileTypeOrIndex;
-			}
-			else
+			if (version > 15)
 			{
 				if (_fileTypeOrIndex < file.TypeTree.Types.Count)
 				{

@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{E739BAE0-0E69-4C35-9FBA-7B1B10BCC544}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>FlexParse</RootNamespace>
     <AssemblyName>FlexParse</AssemblyName>
@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -47,28 +50,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Align.cs" />
-    <Compile Include="Case.cs" />
-    <Compile Include="CustomType.cs" />
+    <Compile Include="Xml\Align.cs" />
+    <Compile Include="Xml\Case.cs" />
+    <Compile Include="Xml\UserType.cs" />
     <Compile Include="DefaultTypes.cs" />
-    <Compile Include="Array.cs" />
-    <Compile Include="InstructionContainer.cs" />
+    <Compile Include="Xml\Array.cs" />
+    <Compile Include="Xml\InstructionContainer.cs" />
     <Compile Include="ReaderContext.cs" />
-    <Compile Include="Switch.cs" />
-    <Compile Include="Value.cs" />
+    <Compile Include="Scripting\GlobalVariable.cs" />
+    <Compile Include="Scripting\LocalVariable.cs" />
+    <Compile Include="Scripting\StaticValue.cs" />
+    <Compile Include="Scripting\Variable.cs" />
+    <Compile Include="Scripting\VariableFactory.cs" />
+    <Compile Include="Xml\Switch.cs" />
+    <Compile Include="Xml\Value.cs" />
     <Compile Include="TypeDef.cs" />
     <Compile Include="Instruction.cs" />
     <Compile Include="TypeSet.cs" />
     <Compile Include="FlexReader.cs" />
     <Compile Include="FlexWriter.cs" />
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WriterContext.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="ExampleTypeSet.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

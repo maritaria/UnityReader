@@ -8,9 +8,9 @@ namespace FlexParse
 {
 	public interface Instruction : IXmlSerializable
 	{
-		void Read(JToken target, ReaderContext context);
+		void Read(JObject localContext, ReaderContext context);
 
-		void Write(JToken item, WriterContext context);
+		void Write(JObject localContext, WriterContext context);
 
 		void PostDeserialization(TypeSet set);
 	}

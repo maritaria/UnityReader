@@ -5,7 +5,7 @@ using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
-namespace FlexParse
+namespace FlexParse.Xml
 {
 	public abstract class InstructionContainer : IXmlSerializable
 	{

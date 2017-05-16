@@ -5,18 +5,18 @@ using System.Xml;
 using System.Xml.Schema;
 using Newtonsoft.Json.Linq;
 
-namespace FlexParse
+namespace FlexParse.Xml
 {
 	public sealed class Align : Instruction
 	{
 		public int BlockSize { get; set; }
 
-		public void Read(JToken target, ReaderContext context)
+		public void Read(JObject target, ReaderContext context)
 		{
 			context.Reader.Align(BlockSize);
 		}
 
-		public void Write(JToken input, WriterContext context)
+		public void Write(JObject input, WriterContext context)
 		{
 			context.Writer.Align(BlockSize);
 		}

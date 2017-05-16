@@ -11,6 +11,7 @@ namespace FlexParse
 		{
 			set.Add(new Boolean());
 			set.Add(new Byte());
+			set.Add(new Int16());
 			set.Add(new Int32());
 			set.Add(new Int64());
 			set.Add(new Float());
@@ -45,6 +46,21 @@ namespace FlexParse
 			public void Write(JToken value, WriterContext context)
 			{
 				context.Writer.Write(value.ToObject<byte>());
+			}
+		}
+
+		private sealed class Int16 : TypeDef
+		{
+			public string Name => nameof(Int16);
+
+			public JToken Read(ReaderContext context)
+			{
+				return new JValue(context.Reader.ReadInt16());
+			}
+
+			public void Write(JToken value, WriterContext context)
+			{
+				context.Writer.Write(value.ToObject<short>());
 			}
 		}
 

@@ -1,17 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <TypeSet>
+
+  <Include Path="GlobalTypes.xml" />
   
-  <!-- AssetsFile -->
   <Type Name="AssetsFile.Header">
     <Value Name="MetadataSize" Type="Int32" />
     <Value Name="AssetsSize" Type="Int32" />
     <Value Name="Format" Type="Int32" />
     <Value Name="AssetsOffset" Type="Int32" />
-    <Switch Source="Format">
+    <Switch Source="${Format}" Mode="Many">
       <Case Comparison="Above" Value="8">
         <Value Name="UseBigEndian" Type="Boolean" />
-        <Align To="4" />
+        <Array Name="Unknown" Type="Byte" Size="3" />
       </Case>
     </Switch>
   </Type>
@@ -19,20 +20,26 @@
   <Type Name="AssetsFile.Metadata">
     <Value Name="UnityVersion" Type="NullString" />
     <Value Name="TypeVersion" Type="Int32" />
-    <Switch Source="$Format">
+    <Switch Source="${!Format}">
       <Case Comparison="Above" Value="12">
         <Value Name="HasTypeTree" Type="Byte" />
       </Case>
     </Switch>
     <Array Name="Types" Type="AssetsFile.Type" />
-    <Array Name="AssetsInfo" Type="AssetsFile.AssetFileInfo" />
+    <Value Name="AssetsInfo_Count" Type="Int32" />
+    <Switch Source="${!Format}">
+      <Case Comparison="Above" Value="13">
+        <Align To="4" />
+      </Case>
+    </Switch>
+    <Array Name="AssetsInfo" Type="AssetsFile.AssetFileInfo" Size="${AssetsInfo_Count}" />
     <Array Name="PreloadList" Type="AssetReference" />
-    <Array Name="Dependencies" Type="Dependency" />
+    <Array Name="Dependencies" Type="AssetsFile.Dependency" />
   </Type>
 
   <Type Name="AssetsFile.Type">
     <Value Name="ClassID" Type="Int32" />
-    <Switch Source="$Format" Mode="Many">
+    <Switch Source="${!Format}" Mode="Many">
       <Case Comparison="Above" Value="15">
         <Value Name="Unknown" Type="Byte" />
       </Case>
@@ -40,20 +47,19 @@
         <Value Name="ScriptIndex" Type="Int16" />
       </Case>
     </Switch>
-    <Switch Source="ClassID">
+    <Switch Source="${ClassID}">
       <Case Comparison="Below" Value="0">
-        <Value Name="ScriptHash" Type="Hash128" />
+        <Value Name="ScriptHash" Type="Hash" />
       </Case>
       <Case Comparison="Equal" Value="114">
-        <Value Name="ScriptHash" Type="Hash128" />
+        <Value Name="ScriptHash" Type="Hash" />
       </Case>
     </Switch>
-    <Value Name="PropertiesHash" Type="Hash128" />
-    <!-- TODO: Navigate using ../ -->
+    <Value Name="PropertiesHash" Type="Hash" />
   </Type>
 
   <Type Name="AssetsFile.AssetFileInfo">
-    <Switch Source="$Format">
+    <Switch Source="${!Format}">
       <Case Comparison="Below" Value="14">
         <Value Name="Index" Type="Int32" />
       </Case>
@@ -64,16 +70,16 @@
     </Switch>
     <Value Name="DataOffset" Type="Int32" />
     <Value Name="DataLength" Type="Int32" />
-    <Switch Source="$Format">
+    <Switch Source="${!Format}">
       <Case Comparison="Below" Value="16">
         <Value Name="ClassID" Type="Int32" />
         <Value Name="InheritedUnityClass" Type="Int16" />
       </Case>
       <Default>
-        <Value Name="TreeIndex" Value="16" />
+        <Value Name="TreeIndex" Type="Int32" />
       </Default>
     </Switch>
-    <Switch Source="$Format">
+    <Switch Source="${!Format}">
       <Case Comparison="Below" Value="17">
         <Value Name="ScriptIndex" Type="Int16" />
         <Value Name="Unknown" Type="Byte" />
@@ -81,21 +87,10 @@
     </Switch>
   </Type>
 
-  <!-- Global types -->
-  
-  <Type Name="AssetReference">
-    <Value Type="Int32" />
-    <Value Type="Int64" />
+  <Type Name="AssetsFile.Dependency">
+    <Value Name="BufferedPath" Type="NullString" />
+    <Value Name="Guid" Type="Guid" />
+    <Value Name="Type" Type="Int32" />
+    <Value Name="AssetPath" Type="NullString" />
   </Type>
-
-  <Type Name="Hash128">
-    <Array Name="Value" Type="Byte" Size="16" />
-  </Type>
-  
-  <Type Name="Vector3">
-    <Value Type="Float" Name="X" />
-    <Value Type="Float" Name="Y" />
-    <Value Type="Float" Name="Z" />
-  </Type>
-  
 </TypeSet>

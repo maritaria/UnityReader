@@ -1,21 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json.Linq;
 
 namespace FlexParse
 {
 	public sealed class ReaderContext
 	{
-		public IDictionary<string, long> Globals { get; }
+		public JObject Globals { get; }
 		public TypeSet Types { get; }
 		public FlexReader Reader { get; }
 
 		public ReaderContext(TypeSet set, FlexReader reader)
-			: this(set, reader, new Dictionary<string, long>())
+			: this(set, reader, new JObject())
 		{
 		}
 
-		public ReaderContext(TypeSet set, FlexReader reader, IDictionary<string, long> globals)
+		public ReaderContext(TypeSet set, FlexReader reader, JObject globals)
 		{
 			if (set == null) throw new ArgumentNullException(nameof(set));
 			if (reader == null) throw new ArgumentNullException(nameof(reader));

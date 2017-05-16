@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<TypeSet>
+  <Type Name="AssetReference">
+    <Value Name="FileID" Type="Int32" />
+    <Value Name="PathID" Type="Int64" />
+  </Type>
+
+  <Type Name="Hash">
+    <Array Name="Value" Type="Byte" Size="16" />
+  </Type>
+
+  <Type Name="Guid">
+    <Value Name="Upper" Type="Int64"/>
+    <Value Name="Lower" Type="Int64"/>
+  </Type>
+
+  <Type Name="Vector3">
+    <Value Type="Float" Name="X" />
+    <Value Type="Float" Name="Y" />
+    <Value Type="Float" Name="Z" />
+  </Type>
+</TypeSet>

@@ -2,14 +2,14 @@
 using System.Xml;
 using Newtonsoft.Json.Linq;
 
-namespace FlexParse
+namespace FlexParse.Xml
 {
 	public class Case : InstructionContainer
 	{
 		public long Value { get; set; } = long.MinValue;
 		public ComparisonMode Comparison { get; set; } = ComparisonMode.Equal;
 
-		public void Read(JToken target, ReaderContext context)
+		public void Read(JObject target, ReaderContext context)
 		{
 			foreach (var instr in Instructions)
 			{
@@ -17,7 +17,7 @@ namespace FlexParse
 			}
 		}
 
-		public void Write(JToken item, WriterContext context)
+		public void Write(JObject item, WriterContext context)
 		{
 			foreach (var instr in Instructions)
 			{

@@ -73,7 +73,7 @@ namespace UnityReader
 
 		public void Align(int blockSize = 4)
 		{
-			int padding = blockSize - (int)(_stream.Position % blockSize);
+			int padding = (int)(_stream.Position % blockSize);
 			_stream.Position += padding;
 		}
 

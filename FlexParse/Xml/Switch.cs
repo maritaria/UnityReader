@@ -3,26 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using System.Xml.Schema;
+using FlexParse.Scripting;
 using Newtonsoft.Json.Linq;
 
-namespace FlexParse
+namespace FlexParse.Xml
 {
 	public sealed class Switch : Instruction
 	{
-		public static readonly char GlobalVariablePrefix = '$';
-
-		public string Source { get; set; }
+		public Variable<long> Source { get; set; }
 		public ICollection<Case> Cases { get; } = new List<Case>();
 		public Case Default { get; set; }
 		public SwitchMode Mode { get; set; } = SwitchMode.One;
 
-		public void Read(JToken target, ReaderContext context)
+		public void Read(JObject localContext, ReaderContext context)
 		{
-			long value = ResolveValue(target, context.Globals);
+			long value = Source.Evaluate(localContext, context.Globals);
 			var accepting = GetAcceptingCases(value);
 			foreach (Case c in accepting)
 			{
-				c.Read(target, context);
+				c.Read(localContext, context);
 				if (Mode == SwitchMode.One)
 				{
 					break;
@@ -30,29 +29,17 @@ namespace FlexParse
 			}
 		}
 
-		public void Write(JToken item, WriterContext context)
+		public void Write(JObject localContext, WriterContext context)
 		{
-			long value = ResolveValue(item, context.Globals);
+			long value = Source.Evaluate(localContext, context.Globals);
 			var accepting = GetAcceptingCases(value);
 			foreach (Case c in accepting)
 			{
-				c.Write(item, context);
+				c.Write(localContext, context);
 				if (Mode == SwitchMode.One)
 				{
 					break;
 				}
-			}
-		}
-
-		private long ResolveValue(JToken target, IDictionary<string, long> globals)
-		{
-			if (Source[0] == GlobalVariablePrefix)
-			{
-				return globals[Source.Substring(1)];
-			}
-			else
-			{
-				return target[Source].Value<long>();
 			}
 		}
 
@@ -88,7 +75,7 @@ namespace FlexParse
 						break;
 				}
 			}
-			if (!passed)
+			if (!passed && Default != null)
 			{
 				yield return Default;
 			}
@@ -113,7 +100,7 @@ namespace FlexParse
 		public void ReadXml(XmlReader reader)
 		{
 			reader.MoveToContent();
-			Source = reader.GetAttribute("Source");
+			Source = VariableFactory.CreateScriptedVariable<long>(reader.GetAttribute("Source"));
 
 			string modeString = reader.GetAttribute("Mode");
 			if (modeString != null)

@@ -29,7 +29,7 @@ namespace UnityReader
 					context.TypeTable.AddTypeNode(type);
 				}
 			}
-			var file = context.LoadFile("globalgamemanagers");
+			var file = context.LoadFile("level0");
 			FindScriptsInFile(file);
 			Console.WriteLine("Loading dependencies");
 			foreach (var dependency in file.Dependencies)

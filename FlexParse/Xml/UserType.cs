@@ -5,10 +5,10 @@ using System.Linq;
 using System.Xml;
 using Newtonsoft.Json.Linq;
 
-namespace FlexParse
+namespace FlexParse.Xml
 {
 	[DebuggerDisplay("{Name}")]
-	public sealed class CustomType : InstructionContainer, TypeDef
+	public sealed class UserType : InstructionContainer, TypeDef
 	{
 		public string Name { get; set; }
 

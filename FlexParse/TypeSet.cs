@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
+using FlexParse.Xml;
 
 namespace FlexParse
 {
@@ -37,6 +39,18 @@ namespace FlexParse
 		public void ReadXml(XmlReader reader)
 		{
 			DefaultTypes.PopulateTypeSet(this);
+			ReadXmlCore(reader);
+			foreach (UserType type in _types.Values.OfType<UserType>())
+			{
+				foreach (var instr in type.Instructions)
+				{
+					instr.PostDeserialization(this);
+				}
+			}
+		}
+
+		private void ReadXmlCore(XmlReader reader)
+		{
 			reader.MoveToContent();
 			bool isEmptyElement = reader.IsEmptyElement;
 			reader.ReadStartElement();
@@ -46,25 +60,33 @@ namespace FlexParse
 				{
 					switch (reader.Name)
 					{
+						case "Include":
+							using (var fs = File.Open(reader.GetAttribute("Path"), FileMode.Open, FileAccess.Read, FileShare.None))
+							using (var innerReader = XmlReader.Create(fs))
+							{
+								ReadXmlCore(innerReader);
+							}
+							if (reader.IsEmptyElement)
+							{
+								reader.ReadStartElement();
+							}
+							else
+							{
+								reader.Skip();
+							}
+							break;
+
 						case "Type":
-							var type = new CustomType();
+							var type = new UserType();
 							type.ReadXml(reader);
 							Add(type);
 							break;
 
 						default:
-							reader.Skip();
-							break;
+							throw new Exception($"Cannot process element '{reader.Name}'");
 					}
 				}
 				reader.ReadEndElement();
-				foreach (CustomType type in _types.Values.OfType<CustomType>())
-				{
-					foreach (var instr in type.Instructions)
-					{
-						instr.PostDeserialization(this);
-					}
-				}
 			}
 		}
 

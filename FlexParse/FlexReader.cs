@@ -25,11 +25,19 @@ namespace FlexParse
 
 		public byte[] ReadBytes(int count)
 		{
+			if (BaseStream.Position == 0xF6)
+			{
+			}
 			byte[] result = new byte[count];
 			int remaining = count;
 			while (remaining > 0)
 			{
-				remaining -= BaseStream.Read(result, count - remaining, remaining);
+				int read = BaseStream.Read(result, count - remaining, remaining);
+				if (read == 0)
+				{
+					throw new EndOfStreamException();
+				}
+				remaining -= read;
 			}
 			return result;
 		}
@@ -56,7 +64,7 @@ namespace FlexParse
 
 		public short ReadInt16()
 		{
-			byte[] bytes = ReadBytesWithEndianSwap(8);
+			byte[] bytes = ReadBytesWithEndianSwap(2);
 			return BitConverter.ToInt16(bytes, 0);
 		}
 
@@ -112,7 +120,7 @@ namespace FlexParse
 
 		public void Align(int blockSize)
 		{
-			int remainingBlock = blockSize - (int)(BaseStream.Position % blockSize);
+			int remainingBlock = (int)(BaseStream.Position % blockSize);
 			if (BaseStream.CanSeek)
 			{
 				BaseStream.Position += remainingBlock;
