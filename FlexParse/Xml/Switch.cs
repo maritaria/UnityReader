@@ -4,38 +4,43 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Schema;
 using FlexParse.Scripting;
-using Newtonsoft.Json.Linq;
 
 namespace FlexParse.Xml
 {
 	public sealed class Switch : Instruction
 	{
+		private const string SourceVariableName = "Switch.Source";
+
 		public Variable<long> Source { get; set; }
 		public ICollection<Case> Cases { get; } = new List<Case>();
 		public Case Default { get; set; }
 		public SwitchMode Mode { get; set; } = SwitchMode.One;
 
-		public void Read(JObject localContext, ReaderContext context)
+		public void Read(ReaderContext context)
 		{
-			long value = Source.Evaluate(localContext, context.Globals);
-			var accepting = GetAcceptingCases(value);
-			foreach (Case c in accepting)
+			long value = Source.Evaluate(context.Scope);
+			using (context.Scope.CreateAnonymousScope())
 			{
-				c.Read(localContext, context);
-				if (Mode == SwitchMode.One)
+				context.Scope[SourceVariableName] = value;
+				var accepting = GetAcceptingCases(value);
+				foreach (Case c in accepting)
 				{
-					break;
+					c.Read(context);
+					if (Mode == SwitchMode.One)
+					{
+						break;
+					}
 				}
 			}
 		}
 
-		public void Write(JObject localContext, WriterContext context)
+		public void Write(WriterContext context)
 		{
-			long value = Source.Evaluate(localContext, context.Globals);
+			long value = Source.Evaluate(context.Scope);
 			var accepting = GetAcceptingCases(value);
 			foreach (Case c in accepting)
 			{
-				c.Write(localContext, context);
+				c.Write(context);
 				if (Mode == SwitchMode.One)
 				{
 					break;

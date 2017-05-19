@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<TypeSet>
+
+  <Type Name="AssetReference">
+    <Value Name="FileID" Type="Int32" />
+    <Value Name="PathID" Type="Int64" />
+  </Type>
+
+  <Type Name="Vector2">
+    <Value Type="Float" Name="X" />
+    <Value Type="Float" Name="Y" />
+  </Type>
+
+  <Type Name="Vector3">
+    <Value Type="Float" Name="X" />
+    <Value Type="Float" Name="Y" />
+    <Value Type="Float" Name="Z" />
+  </Type>
+
+  <Type Name="Vector4">
+    <Value Type="Float" Name="X" />
+    <Value Type="Float" Name="Y" />
+    <Value Type="Float" Name="Z" />
+    <Value Type="Float" Name="W" />
+  </Type>
+
+  <Type Name="Quaternion">
+    <Value Type="Float" Name="X" />
+    <Value Type="Float" Name="Y" />
+    <Value Type="Float" Name="Z" />
+    <Value Type="Float" Name="W" />
+  </Type>
+
+  <Type Name="ColorFloatRgba">
+    <Value Type="Float" Name="R" />
+    <Value Type="Float" Name="G" />
+    <Value Type="Float" Name="B" />
+    <Value Type="Float" Name="A" />
+  </Type>
+</TypeSet>

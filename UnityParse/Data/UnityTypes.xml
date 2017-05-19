@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<TypeSet>
+  <Include Path="CommonTypes.xml" />
+
+  <Type Name="GameObject">
+    <Array Name="Components" Type="AssetReference" />
+    <Value Name="Layer" Type="Int32" />
+    <Value Name="Name" Type="SizedString" />
+    <Align To="4" />
+    <Value Name="Tag" Type="Int16" />
+    <Value Name="IsActive" Type="Boolean" />
+  </Type>
+
+  <Type Name="Transform">
+    <Value Name="GameObject" Type="AssetReference" />
+    <Value Name="LocalRotation" Type="Quaternion" />
+    <Value Name="LocalPosition" Type="Vector3" />
+    <Value Name="LocalScale" Type="Vector3" />
+    <Array Name="Children" Type="AssetReference" />
+    <Value Name="Parent" Type="AssetReference" />
+  </Type>
+
+  <Type Name="MonoBehaviour">
+    <Value Name="GameObject" Type="AssetReference" />
+    <Value Name="IsEnabled"  Type="Boolean" />
+    <Align To="4" />
+    <Value Name="Script" Type="AssetReference" />
+    <Value Name="Name" Type="SizedString" />
+    <Align To="4" />
+  </Type>
+
+  <Type Name="MonoScript">
+    <Value Name="Name" Type="SizedString" />
+    <Align To="4" />
+    <Value Name="ExecutionOrder" Type="Int32" />
+    <Value Name="PropertiesHash" Type="Guid" />
+    <Value Name="ClassName" Type="SizedString" />
+    <Align To="4" />
+    <Value Name="Namespace" Type="SizedString" />
+    <Align To="4" />
+    <Value Name="AssemblyName" Type="SizedString" />
+    <Align To="4" />
+    <Value Name="IsEditorScript" Type="Boolean" />
+  </Type>
+
+  <Type Name="RenderSettings">
+    <Value Name="FogEnabled" Type="Boolean" />
+    <Align To="4" />
+    <Value Name="FogColor" Type="ColorFloatRgba" />
+    <Value Name="FogMode" Type="Int32" />
+    <Value Name="FogDensity" Type="Float" />
+    <Value Name="LinearFogStart" Type="Float" />
+    <Value Name="LinearFogEnd" Type="Float" />
+    <Value Name="AmbientSkyColor" Type="ColorFloatRgba" />
+    <Value Name="AmbientEquatorColor" Type="ColorFloatRgba" />
+    <Value Name="AmbientGroundColor" Type="ColorFloatRgba" />
+    <Value Name="AmbientIntensity" Type="Float" />
+    <Align To="4" />
+    <Value Name="SkyboxMaterial" Type="AssetReference" />
+    <Value Name="HaloStrength" Type="Float" />
+    <Value Name="FlareStrength" Type="Float" />
+    <Value Name="FlareFadeSpeed" Type="Float" />
+    <Value Name="HaloTexture" Type="AssetReference" />
+    <Value Name="SpotCookie" Type="AssetReference" />
+    <Value Name="DefaultReflectionMode" Type="Int32" />
+    <Value Name="DefaultReflectionResolution" Type="Int32" />
+    <Value Name="ReflectionBounces" Type="Int32" />
+    <Value Name="ReflectionIntensity" Type="Float" />
+    <Value Name="CustomReflection" Type="AssetReference" />
+    <Array Name="AmbientProbe" Type="Float" Size="27" />
+    <Value Name="GeneratedSkyboxReflection" Type="AssetReference" />
+    <Value Name="Sun" Type="AssetReference" />
+    <Value Name="IndirectSpecularColor" Type="ColorFloatRgba" />
+  </Type>
+
+  <Include Path="UnityTypes.LightmapSettings.xml" />
+</TypeSet>

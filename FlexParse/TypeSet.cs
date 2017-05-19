@@ -29,6 +29,11 @@ namespace FlexParse
 			_types.Add(type.Name, type);
 		}
 
+		public bool ContainsType(string typeName)
+		{
+			return _types.ContainsKey(typeName);
+		}
+
 		#region IXmlSerializable
 
 		public XmlSchema GetSchema()
@@ -39,7 +44,8 @@ namespace FlexParse
 		public void ReadXml(XmlReader reader)
 		{
 			DefaultTypes.PopulateTypeSet(this);
-			ReadXmlCore(reader);
+			var loaded = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+			ReadXmlCore(reader, loaded);
 			foreach (UserType type in _types.Values.OfType<UserType>())
 			{
 				foreach (var instr in type.Instructions)
@@ -49,7 +55,7 @@ namespace FlexParse
 			}
 		}
 
-		private void ReadXmlCore(XmlReader reader)
+		private void ReadXmlCore(XmlReader reader, ICollection<string> loaded)
 		{
 			reader.MoveToContent();
 			bool isEmptyElement = reader.IsEmptyElement;
@@ -61,10 +67,15 @@ namespace FlexParse
 					switch (reader.Name)
 					{
 						case "Include":
-							using (var fs = File.Open(reader.GetAttribute("Path"), FileMode.Open, FileAccess.Read, FileShare.None))
-							using (var innerReader = XmlReader.Create(fs))
+							string path = Path.GetFullPath(reader.GetAttribute("Path"));
+							if (!loaded.Contains(path))
 							{
-								ReadXmlCore(innerReader);
+								loaded.Add(path);
+								using (var fs = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.None))
+								using (var innerReader = XmlReader.Create(fs))
+								{
+									ReadXmlCore(innerReader, loaded);
+								}
 							}
 							if (reader.IsEmptyElement)
 							{

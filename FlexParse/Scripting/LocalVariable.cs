@@ -9,13 +9,12 @@ namespace FlexParse.Scripting
 	{
 		public string Name { get; set; }
 
-		public T Evaluate(JObject localScope, JObject globalScope)
+		public T Evaluate(ScopeStack scope)
 		{
-			if (Name == "AssetsInfo_Count")
+			if (Name == "Array.Index")
 			{
-
 			}
-			return localScope[Name].Value<T>();
+			return scope[Name].Value<T>();
 		}
 	}
 }

@@ -11,12 +11,12 @@ namespace FlexParse.Xml
 	{
 		public int BlockSize { get; set; }
 
-		public void Read(JObject target, ReaderContext context)
+		public void Read(ReaderContext context)
 		{
 			context.Reader.Align(BlockSize);
 		}
 
-		public void Write(JObject input, WriterContext context)
+		public void Write(WriterContext context)
 		{
 			context.Writer.Align(BlockSize);
 		}

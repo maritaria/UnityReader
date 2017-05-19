@@ -39,6 +39,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,14 +48,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="AssetsFile.xml">
+    <Compile Include="AssetReference.cs" />
+    <Compile Include="BakedFiles\AssetInfo.cs" />
+    <Compile Include="BakedFiles\AssetType.cs" />
+    <Compile Include="BakedFiles\Dependency.cs" />
+    <Compile Include="Types\AssetReference.cs" />
+    <Compile Include="Types\Component.cs" />
+    <Compile Include="Types\GameObject.cs" />
+    <Compile Include="Types\Object.cs" />
+    <Content Include="Data\AssetsFile.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
+    <Compile Include="Asset.cs" />
+    <Compile Include="BakedFiles\Header.cs" />
+    <Compile Include="BakedFiles\Metadata.cs" />
+    <Compile Include="AssetCode.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UnityFile.cs" />
-    <Compile Include="UnityHeader.cs" />
+    <Compile Include="BakedFiles\AssetCollection.cs" />
+    <Content Include="Data\Types.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\UnityTypes.LightmapSettings.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\UnityTypes.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FlexParse\FlexParse.csproj">
@@ -63,16 +84,17 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="GlobalTypes.xml">
+    <Content Include="Data\CommonTypes.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Include="level0">
+    <Content Include="Data\level0">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Content>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

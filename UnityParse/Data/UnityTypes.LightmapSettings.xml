@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<TypeSet>
+  <Include Path="CommonTypes.xml" />
+
+  <Type Name="LightmapSettings">
+    <Value Name="EnlightenSceneMapping" Type="LightmapSettings.EnlightenSceneMapping" />
+    <Value Name="LightProbes" Type="AssetReference" />
+    <Array Name="Lightmaps" Type="LightmapSettings.LightmapData" />
+    <Value Name="LightmapsMode" Type="Int32" />
+    <Align To="4" />
+    <Value Name="GISettings" Type="LightmapSettings.GISettings" />
+    <Value Name="RuntimeCPUUsage" Type="Int32" />
+  </Type>
+
+  <Type Name="LightmapSettings.EnlightenSceneMapping">
+    <Array Name="Renderers" Type="LightmapSettings.EnlightenSceneMapping.EnlightenRendererInformation" />
+    <Array Name="Systems" Type="LightmapSettings.EnlightenSceneMapping.EnlightenSystemInformation" />
+    <Array Name="Probesets" Type="Guid" />
+    <Array Name="SystemAtlases" Type="LightmapSettings.EnlightenSceneMapping.EnlightenSystemAtlasInformation" />
+    <Array Name="TerrainChunks" Type="LightmapSettings.EnlightenSceneMapping.EnlightenTerrainChunksInformation" />
+  </Type>
+
+  <Type Name="LightmapSettings.EnlightenSceneMapping.EnlightenRendererInformation">
+    <Value Name="Renderer" Type="AssetReference" />
+    <Value Name="DynamicLightmapSTInSystem" Type="Vector4" />
+    <Field Name="SystemID" Type="Int32" />
+    <Value Name="InstanceHash" Type="Guid" />
+  </Type>
+  
+  <Type Name="LightmapSettings.EnlightenSceneMapping.EnlightenSystemInformation">
+    <Field Name="RendererIndex" Type="Int32" />
+    <Field Name="RendererSize" Type="Int32" />
+    <Field Name="AtlasIndex" Type="Int32" />
+    <Field Name="AtlasOffsetX" Type="Int32" />
+    <Field Name="AtlasOffsetY" Type="Int32" />
+    <Field Name="InputSystemHash" Type="Guid" />
+    <Field Name="RadiositySystemHash" Type="Guid" />
+  </Type>
+  
+  <Type Name="LightmapSettings.EnlightenSceneMapping.EnlightenSystemAtlasInformation">
+    <Field Name="AtlasSize" Type="Int32" />
+    <Field Name="AtlasHash" Type="Guid" />
+    <Field Name="FirstSystemId" Type="Int32" />
+  </Type>
+  
+  <Type Name="LightmapSettings.EnlightenSceneMapping.EnlightenTerrainChunksInformation">
+    <Field  Name="FirstSystemId" Type="Int32" />
+    <Field  Name="NumChunksInX" Type="Int32" />
+    <Field  Name="NumChunksInY" Type="Int32" />
+  </Type>
+
+  <Type Name="LightmapSettings.LightmapData">
+    <Value Name="Lightmap" Type="AssetReference" />
+    <Value Name="IndirectLightmap" Type="AssetReference" />
+  </Type>
+  
+  <Type Name="LightmapSettings.GISettings">
+    <Value Name="BounceScale" Type="Float" />
+    <Value Name="IndirectOutputScale" Type="Float" />
+    <Value Name="AlbedoBoost" Type="Float" />
+    <Value Name="TemporalCoherenceThreshold" Type="Float" />
+    <Value Name="EnvironmentLightingMode" Type="Int32" />
+    <Value Name="EnableBakedLightmaps" Type="Boolean" />
+    <Value Name="EnableRealtimeLightmaps" Type="Boolean" />
+    <Align To="4" />
+  </Type>
+</TypeSet>

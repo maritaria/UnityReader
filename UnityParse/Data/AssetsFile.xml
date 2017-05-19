@@ -1,8 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <TypeSet>
-
-  <Include Path="GlobalTypes.xml" />
+  <Include Path="CommonTypes.xml" />
   
   <Type Name="AssetsFile.Header">
     <Value Name="MetadataSize" Type="Int32" />
@@ -11,7 +10,7 @@
     <Value Name="AssetsOffset" Type="Int32" />
     <Switch Source="${Format}" Mode="Many">
       <Case Comparison="Above" Value="8">
-        <Value Name="UseBigEndian" Type="Boolean" />
+        <Value Name="IsBigEndian" Type="Boolean" />
         <Array Name="Unknown" Type="Byte" Size="3" />
       </Case>
     </Switch>
@@ -26,14 +25,8 @@
       </Case>
     </Switch>
     <Array Name="Types" Type="AssetsFile.Type" />
-    <Value Name="AssetsInfo_Count" Type="Int32" />
-    <Switch Source="${!Format}">
-      <Case Comparison="Above" Value="13">
-        <Align To="4" />
-      </Case>
-    </Switch>
-    <Array Name="AssetsInfo" Type="AssetsFile.AssetFileInfo" Size="${AssetsInfo_Count}" />
-    <Array Name="PreloadList" Type="AssetReference" />
+    <Array Name="AssetIndex" Type="AssetsFile.AssetFileInfo" />
+    <Array Name="PreloadTable" Type="AssetReference" />
     <Array Name="Dependencies" Type="AssetsFile.Dependency" />
   </Type>
 
@@ -49,16 +42,21 @@
     </Switch>
     <Switch Source="${ClassID}">
       <Case Comparison="Below" Value="0">
-        <Value Name="ScriptHash" Type="Hash" />
+        <Value Name="ScriptHash" Type="Guid" />
       </Case>
       <Case Comparison="Equal" Value="114">
-        <Value Name="ScriptHash" Type="Hash" />
+        <Value Name="ScriptHash" Type="Guid" />
       </Case>
     </Switch>
-    <Value Name="PropertiesHash" Type="Hash" />
+    <Value Name="PropertiesHash" Type="Guid" />
   </Type>
 
   <Type Name="AssetsFile.AssetFileInfo">
+    <Switch Source="${Array.Index}">
+      <Case Comparison="Equal" Value="0">
+        <Align To="4" />
+      </Case>
+    </Switch>
     <Switch Source="${!Format}">
       <Case Comparison="Below" Value="14">
         <Value Name="Index" Type="Int32" />

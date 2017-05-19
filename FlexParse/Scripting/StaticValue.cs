@@ -16,7 +16,7 @@ namespace FlexParse.Scripting
 			Value = value;
 		}
 
-		public T Evaluate(JObject localScope, JObject globalScope)
+		public T Evaluate(ScopeStack scope)
 		{
 			return Value;
 		}

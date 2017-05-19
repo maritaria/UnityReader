@@ -6,7 +6,7 @@ using System.Text;
 
 namespace FlexParse
 {
-	public sealed class FlexReader : IDisposable
+	public sealed class FlexReader
 	{
 		public Stream BaseStream { get; }
 		public bool IsLittleEndian { get; set; } = BitConverter.IsLittleEndian;
@@ -16,11 +16,6 @@ namespace FlexParse
 			if (stream == null) throw new ArgumentNullException(nameof(stream));
 			if (!stream.CanRead) throw new ArgumentException("Stream is not readable", nameof(stream));
 			BaseStream = stream;
-		}
-
-		public void Dispose()
-		{
-			BaseStream.Dispose();
 		}
 
 		public byte[] ReadBytes(int count)
@@ -120,14 +115,18 @@ namespace FlexParse
 
 		public void Align(int blockSize)
 		{
-			int remainingBlock = (int)(BaseStream.Position % blockSize);
-			if (BaseStream.CanSeek)
+			int blockAdvancement = (int)(BaseStream.Position % blockSize);
+			if (blockAdvancement != 0)
 			{
-				BaseStream.Position += remainingBlock;
-			}
-			else
-			{
-				ReadBytes(remainingBlock);
+				int remaining = blockSize - blockAdvancement;
+				if (BaseStream.CanSeek)
+				{
+					BaseStream.Position += remaining;
+				}
+				else
+				{
+					ReadBytes(remaining);
+				}
 			}
 		}
 

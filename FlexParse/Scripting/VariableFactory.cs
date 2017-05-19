@@ -10,7 +10,7 @@ namespace FlexParse.Scripting
 		public static readonly char ScriptPrefix = '$';
 
 		public static Regex VariableParser = new Regex(
-			@"^\$\{(?<IsGlobal>\!)?(?<Name>\w*)\}$",
+			@"^\$\{(?<IsGlobal>\!)?(?<Name>[\w._]*)\}$",
 			RegexOptions.Compiled);
 
 		public static bool IsScriptedVariable(string script)

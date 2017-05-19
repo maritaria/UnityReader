@@ -9,9 +9,9 @@ namespace FlexParse.Scripting
 	{
 		public string Name { get; set; }
 
-		public T Evaluate(JObject localScope, JObject globalScope)
+		public T Evaluate(ScopeStack scope)
 		{
-			return globalScope[Name].Value<T>();
+			return scope.GlobalFrame[Name].Value<T>();
 		}
 	}
 }

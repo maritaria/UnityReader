@@ -12,36 +12,35 @@ namespace FlexParse.Xml
 	{
 		public string Name { get; set; }
 
-		public JObject Read(ReaderContext context)
-		{
-			if (context == null) throw new ArgumentNullException(nameof(context));
-			JObject obj = new JObject();
-			foreach (var instruction in Instructions)
-			{
-				instruction.Read(obj, context);
-			}
-			return obj;
-		}
-
-		public void Write(JObject value, WriterContext context)
-		{
-			foreach (var instruction in Instructions)
-			{
-				instruction.Write(value, context);
-			}
-		}
-
-
 		#region TypeDef
 
-		JToken TypeDef.Read(ReaderContext context)
+		public JToken Read(ReaderContext context)
 		{
-			return Read(context);
+			if (context == null) throw new ArgumentNullException(nameof(context));
+
+			JObject result = new JObject();
+			using (context.Scope.CreateActiveObjectScope(result))
+			{
+				foreach (var instruction in Instructions)
+				{
+					instruction.Read(context);
+				}
+			}
+			return result;
 		}
 
-		void TypeDef.Write(JToken value, WriterContext context)
+		public void Write(JToken value, WriterContext context)
 		{
-			Write((JObject)value, context);
+			if (value == null) throw new ArgumentNullException(nameof(value));
+			if (context == null) throw new ArgumentNullException(nameof(context));
+
+			using (context.Scope.CreateActiveObjectScope((JObject)value))
+			{
+				foreach (var instruction in Instructions)
+				{
+					instruction.Write(context);
+				}
+			}
 		}
 
 		#endregion TypeDef

@@ -9,19 +9,19 @@ namespace FlexParse.Xml
 		public long Value { get; set; } = long.MinValue;
 		public ComparisonMode Comparison { get; set; } = ComparisonMode.Equal;
 
-		public void Read(JObject target, ReaderContext context)
+		public void Read(ReaderContext context)
 		{
 			foreach (var instr in Instructions)
 			{
-				instr.Read(target, context);
+				instr.Read(context);
 			}
 		}
 
-		public void Write(JObject item, WriterContext context)
+		public void Write(WriterContext context)
 		{
 			foreach (var instr in Instructions)
 			{
-				instr.Write(item, context);
+				instr.Write(context);
 			}
 		}
 

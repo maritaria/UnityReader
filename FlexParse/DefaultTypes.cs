@@ -17,6 +17,7 @@ namespace FlexParse
 			set.Add(new Float());
 			set.Add(new SizedString());
 			set.Add(new NullString());
+			set.Add(new Guid());
 		}
 
 		private sealed class Boolean : TypeDef
@@ -139,6 +140,21 @@ namespace FlexParse
 			{
 				context.Writer.Write(value.ToObject<string>());
 				context.Writer.Write((byte)0x00);
+			}
+		}
+
+		private sealed class Guid : TypeDef
+		{
+			public string Name => nameof(System.Guid);
+
+			public JToken Read(ReaderContext context)
+			{
+				return new System.Guid(context.Reader.ReadBytes(16));
+			}
+
+			public void Write(JToken value, WriterContext context)
+			{
+				context.Writer.WriteBytes(value.Value<System.Guid>().ToByteArray());
 			}
 		}
 	}

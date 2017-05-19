@@ -11,6 +11,9 @@ namespace FlexParse.Xml
 	[DebuggerDisplay("Array ")]
 	public sealed class Array : Value
 	{
+		public const string IndexVariableName = "Array.Index";
+		public const string SizeVariableName = "Array.Size";
+
 		public Variable<int> Size { get; private set; } = new StaticValue<int>(-1);
 
 		public bool IsDynamic => Size is DynamicArrayMarker;
@@ -25,19 +28,23 @@ namespace FlexParse.Xml
 			Size = new DynamicArrayMarker();
 		}
 
-		public override void Read(JObject target, ReaderContext context)
+		public override void Read(ReaderContext context)
 		{
-			int count;
-			count = GetArraySize(target, context);
+			int count = GetArraySize(context);
 			JArray array = new JArray();
-			for (int i = 0; i < count; i++)
+			using (context.Scope.CreateAnonymousScope())
 			{
-				array.Add(Type.Read(context));
+				context.Scope[SizeVariableName] = new JValue(count);
+				for (int i = 0; i < count; i++)
+				{
+					context.Scope[IndexVariableName] = new JValue(i);
+					array.Add(Type.Read(context));
+				}
 			}
-			target[FieldName] = array;
+			context.Scope[FieldName] = array;
 		}
 
-		private int GetArraySize(JObject target, ReaderContext context)
+		private int GetArraySize(ReaderContext context)
 		{
 			int count;
 			if (IsDynamic)
@@ -46,22 +53,31 @@ namespace FlexParse.Xml
 			}
 			else
 			{
-				count = Size.Evaluate(target, context.Globals);
+				count = Size.Evaluate(context.Scope);
 			}
-
 			return count;
 		}
 
-		public override void Write(JObject item, WriterContext context)
+		public override void Write(WriterContext context)
 		{
-			JArray array = (JArray)item[FieldName];
-			if (IsDynamic)
+			JArray array = (JArray)context.Scope[FieldName];
+			using (context.Scope.CreateAnonymousScope())
 			{
-				context.Writer.Write(array.Count);
-			}
-			foreach (JToken element in array)
-			{
-				Type.Write(element, context);
+				context.Scope[SizeVariableName] = array.Count;
+				if (IsDynamic)
+				{
+					context.Writer.Write(array.Count);
+				}
+				for (int i = 0; i < array.Count; i++)
+				{
+					context.Scope[IndexVariableName] = i;
+					var current = array[i];
+					Type.Write(current, context);
+				}
+				foreach (JToken element in array)
+				{
+					Type.Write(element, context);
+				}
 			}
 		}
 
@@ -99,7 +115,7 @@ namespace FlexParse.Xml
 
 		private class DynamicArrayMarker : Variable<int>
 		{
-			public int Evaluate(JObject localScope, JObject globalScope)
+			public int Evaluate(ScopeStack scope)
 			{
 				throw new NotImplementedException();
 			}

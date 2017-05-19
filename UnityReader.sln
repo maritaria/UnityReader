@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlexParse", "FlexParse\Flex
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityParse", "UnityParse\UnityParse.csproj", "{3253AAC7-567D-40EA-B9CC-A03A04C2E6DB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLibrary1", "ClassLibrary1\ClassLibrary1.csproj", "{E7273466-96D0-4604-90F3-827849E642CB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{3253AAC7-567D-40EA-B9CC-A03A04C2E6DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3253AAC7-567D-40EA-B9CC-A03A04C2E6DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3253AAC7-567D-40EA-B9CC-A03A04C2E6DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7273466-96D0-4604-90F3-827849E642CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7273466-96D0-4604-90F3-827849E642CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7273466-96D0-4604-90F3-827849E642CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7273466-96D0-4604-90F3-827849E642CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

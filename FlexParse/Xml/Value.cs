@@ -15,14 +15,14 @@ namespace FlexParse.Xml
 		public TypeDef Type { get; private set; }
 		public string FieldName { get; set; }
 
-		public virtual void Read(JObject target, ReaderContext context)
+		public virtual void Read(ReaderContext context)
 		{
-			target[FieldName] = Type.Read(context);
+			context.Scope.ActiveObject[FieldName] = Type.Read(context);
 		}
 
-		public virtual void Write(JObject item, WriterContext context)
+		public virtual void Write(WriterContext context)
 		{
-			Type.Write(item[FieldName], context);
+			Type.Write(context.Scope.ActiveObject[FieldName], context);
 		}
 
 		public void PostDeserialization(TypeSet set)

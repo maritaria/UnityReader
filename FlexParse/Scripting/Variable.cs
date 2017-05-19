@@ -7,6 +7,6 @@ namespace FlexParse.Scripting
 {
 	public interface Variable<T>
 	{
-		T Evaluate(JObject localScope, JObject globalScope);
+		T Evaluate(ScopeStack scope);
 	}
 }

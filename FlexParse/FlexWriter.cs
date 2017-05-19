@@ -6,7 +6,7 @@ using System.Text;
 
 namespace FlexParse
 {
-	public sealed class FlexWriter : IDisposable
+	public sealed class FlexWriter
 	{
 		public Stream BaseStream { get; }
 		public bool IsLittleEndian { get; set; } = BitConverter.IsLittleEndian;
@@ -16,11 +16,6 @@ namespace FlexParse
 			if (stream == null) throw new ArgumentNullException(nameof(stream));
 			if (!stream.CanWrite) throw new ArgumentException("Stream is not writable", nameof(stream));
 			BaseStream = stream;
-		}
-
-		public void Dispose()
-		{
-			BaseStream.Dispose();
 		}
 
 		public void WriteBytes(byte[] buffer)
@@ -79,15 +74,19 @@ namespace FlexParse
 
 		public void Align(int blockSize)
 		{
-			int remainingBlock = (int)(BaseStream.Position % blockSize);
-			if (BaseStream.CanSeek)
+			int blockAdvancement = (int)(BaseStream.Position % blockSize);
+			if (blockAdvancement != 0)
 			{
-				BaseStream.Position += remainingBlock;
-			}
-			else
-			{
-				byte[] block = new byte[remainingBlock];
-				BaseStream.Write(block, 0, block.Length);
+				int remaining = blockSize - blockAdvancement;
+				if (BaseStream.CanSeek)
+				{
+					BaseStream.Position += remaining;
+				}
+				else
+				{
+					byte[] block = new byte[remaining];
+					BaseStream.Write(block, 0, block.Length);
+				}
 			}
 		}
 	}

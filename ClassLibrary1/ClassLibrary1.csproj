@@ -4,17 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E739BAE0-0E69-4C35-9FBA-7B1B10BCC544}</ProjectGuid>
+    <ProjectGuid>{E7273466-96D0-4604-90F3-827849E642CB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FlexParse</RootNamespace>
-    <AssemblyName>FlexParse</AssemblyName>
+    <RootNamespace>ClassLibrary1</RootNamespace>
+    <AssemblyName>ClassLibrary1</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,16 +22,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -50,28 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Scripting\ScopeStack.cs" />
-    <Compile Include="Xml\Align.cs" />
-    <Compile Include="Xml\Case.cs" />
-    <Compile Include="Xml\UserType.cs" />
-    <Compile Include="DefaultTypes.cs" />
-    <Compile Include="Xml\Array.cs" />
-    <Compile Include="Xml\InstructionContainer.cs" />
-    <Compile Include="ReaderContext.cs" />
-    <Compile Include="Scripting\GlobalVariable.cs" />
-    <Compile Include="Scripting\LocalVariable.cs" />
-    <Compile Include="Scripting\StaticValue.cs" />
-    <Compile Include="Scripting\Variable.cs" />
-    <Compile Include="Scripting\VariableFactory.cs" />
-    <Compile Include="Xml\Switch.cs" />
-    <Compile Include="Xml\Value.cs" />
-    <Compile Include="TypeDef.cs" />
-    <Compile Include="Instruction.cs" />
-    <Compile Include="TypeSet.cs" />
-    <Compile Include="FlexReader.cs" />
-    <Compile Include="FlexWriter.cs" />
+    <Compile Include="Asset.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WriterContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
