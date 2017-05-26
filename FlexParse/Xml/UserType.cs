@@ -11,6 +11,7 @@ namespace FlexParse.Xml
 	public sealed class UserType : InstructionContainer, TypeDef
 	{
 		public string Name { get; set; }
+		public string Proxy { get; set; }
 
 		#region TypeDef
 
@@ -26,7 +27,14 @@ namespace FlexParse.Xml
 					instruction.Read(context);
 				}
 			}
-			return result;
+			if (Proxy != null)
+			{
+				return result[Proxy];
+			}
+			else
+			{
+				return result;
+			}
 		}
 
 		public void Write(JToken value, WriterContext context)
@@ -34,7 +42,18 @@ namespace FlexParse.Xml
 			if (value == null) throw new ArgumentNullException(nameof(value));
 			if (context == null) throw new ArgumentNullException(nameof(context));
 
-			using (context.Scope.CreateActiveObjectScope((JObject)value))
+			JObject activeScope;
+			if (Proxy == null)
+			{
+				activeScope = (JObject)value;
+			}
+			else
+			{
+				activeScope = new JObject();
+				activeScope[Proxy] = value;
+			}
+
+			using (context.Scope.CreateActiveObjectScope(activeScope))
 			{
 				foreach (var instruction in Instructions)
 				{
@@ -50,6 +69,7 @@ namespace FlexParse.Xml
 		protected override void ReadXmlAttributes(XmlReader reader)
 		{
 			Name = reader.GetAttribute("Name");
+			Proxy = reader.GetAttribute("Proxy");
 		}
 
 		#endregion IXmlSerializable

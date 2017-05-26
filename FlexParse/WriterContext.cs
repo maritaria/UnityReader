@@ -12,18 +12,18 @@ namespace FlexParse
 		public TypeSet Types { get; }
 		public FlexWriter Writer { get; }
 
-		public WriterContext(TypeSet set, FlexWriter reader)
-			: this(set, reader, new ScopeStack())
+		public WriterContext(TypeSet set, FlexWriter writer)
+			: this(set, writer, new ScopeStack())
 		{
 		}
 
-		public WriterContext(TypeSet set, FlexWriter reader, ScopeStack globals)
+		public WriterContext(TypeSet set, FlexWriter writer, ScopeStack globals)
 		{
 			if (set == null) throw new ArgumentNullException(nameof(set));
-			if (reader == null) throw new ArgumentNullException(nameof(reader));
+			if (writer == null) throw new ArgumentNullException(nameof(writer));
 			if (globals == null) throw new ArgumentNullException(nameof(globals));
 			Types = set;
-			Writer = reader;
+			Writer = writer;
 			Scope = globals;
 		}
 	}

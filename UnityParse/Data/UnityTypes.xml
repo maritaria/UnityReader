@@ -44,6 +44,16 @@
     <Value Name="IsEditorScript" Type="Boolean" />
   </Type>
 
+  <Type Name="MonoManager">
+    <Array Name="Scripts" Type="AssetReference" />
+    <Array Name="AssemblyNames" Type="MonoManager.AlignedString"/>
+  </Type>
+
+  <Type Name="MonoManager.AlignedString" Proxy="this">
+    <Value Name="this" Type="SizedString"/>
+    <Align To="4"/>
+  </Type>
+
   <Type Name="RenderSettings">
     <Value Name="FogEnabled" Type="Boolean" />
     <Align To="4" />

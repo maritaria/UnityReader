@@ -55,6 +55,8 @@
     <Compile Include="Types\AssetReference.cs" />
     <Compile Include="Types\Component.cs" />
     <Compile Include="Types\GameObject.cs" />
+    <Compile Include="Types\MonoManager.cs" />
+    <Compile Include="Types\MonoScript.cs" />
     <Compile Include="Types\Object.cs" />
     <Content Include="Data\AssetsFile.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -90,6 +92,18 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Data\level0">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\globalgamemanagers">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\globalgamemanagers.assets">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\resources.assets">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\sharedassets0.assets">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />

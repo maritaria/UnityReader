@@ -41,7 +41,7 @@ namespace FlexParse.Xml
 					array.Add(Type.Read(context));
 				}
 			}
-			context.Scope[FieldName] = array;
+			context.Scope.ActiveObject[FieldName] = array;
 		}
 
 		private int GetArraySize(ReaderContext context)
@@ -73,10 +73,6 @@ namespace FlexParse.Xml
 					context.Scope[IndexVariableName] = i;
 					var current = array[i];
 					Type.Write(current, context);
-				}
-				foreach (JToken element in array)
-				{
-					Type.Write(element, context);
 				}
 			}
 		}

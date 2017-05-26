@@ -19,5 +19,8 @@ namespace UnityParse.BakedFiles
 
 		[DataMember]
 		public Guid PropertiesHash { get; private set; }
+
+		[DataMember]
+		public byte Unknown { get; private set; }
 	}
 }

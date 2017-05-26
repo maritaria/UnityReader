@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 using FlexParse;
+using Newtonsoft.Json.Linq;
 
 namespace UnityParse.BakedFiles
 {
@@ -32,7 +33,9 @@ namespace UnityParse.BakedFiles
 
 		public static Metadata FromStream(Stream stream, TypeSet types, Header header)
 		{
-			if (stream == null) throw new ArgumentNullException();
+			if (stream == null) throw new ArgumentNullException(nameof(stream));
+			if (types == null) throw new ArgumentNullException(nameof(types));
+			if (header == null) throw new ArgumentNullException(nameof(header));
 			stream.Position = header.MetadataOffset;
 			TypeDef metaDefinition = types["AssetsFile.Metadata"];
 			FlexReader reader = new FlexReader(stream) { IsLittleEndian = !header.IsBigEndian };
@@ -72,6 +75,21 @@ namespace UnityParse.BakedFiles
 					throw new NotImplementedException();
 				}
 			}
+		}
+
+		public void WriteTo(Stream stream, TypeSet types, Header header)
+		{
+			if (stream == null) throw new ArgumentNullException(nameof(stream));
+			if (types == null) throw new ArgumentNullException(nameof(types));
+			if (header == null) throw new ArgumentNullException(nameof(header));
+
+			stream.Position = header.MetadataOffset;
+			TypeDef metaDefinition = types["AssetsFile.Metadata"];
+			FlexWriter writer = new FlexWriter(stream) { IsLittleEndian = !header.IsBigEndian };
+			var context = new WriterContext(types, writer);
+			context.Scope.GlobalFrame["Format"] = header.Format;
+			var json = JObject.FromObject(this);
+			metaDefinition.Write(json, context);
 		}
 	}
 }
